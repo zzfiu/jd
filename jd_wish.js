@@ -26,7 +26,7 @@ let message = '', allMessage = '';
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let appIdArr = ['1E1xZy6s','1E1NXxq0', '1ElBTx6o'];
-let appNameArr = [['Plus会员','众筹许愿池', '企有此礼'];
+let appNameArr = ['Plus会员','众筹许愿池', '企有此礼'];
 let appId, appName;
 $.shareCode = [];
 if ($.isNode()) {
