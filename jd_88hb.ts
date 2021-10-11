@@ -147,7 +147,7 @@ async function api(fn: string, stk: string, params: Params = {}) {
 
 async function getCodesHW() {
   try {
-    let {data}: any = await axios.get('https:///api/', {timeout: 10000})
+    let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/HW_CODES', {timeout: 10000})
     console.log('获取HW_CODES成功')
     shareCodesHW = data['88hb']
   } catch (e: any) {
@@ -157,7 +157,7 @@ async function getCodesHW() {
 
 async function getCodesPool() {
   try {
-    let {data}: any = await axios.get('https:///api/hb88/30', {timeout: 10000})
+    let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/hb88/30', {timeout: 10000})
     return data.data
   } catch (e: any) {
     console.log('获取助力池出错')
