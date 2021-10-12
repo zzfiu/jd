@@ -1,19 +1,17 @@
 /**
  * 京喜财富岛
  * 包含雇佣导游，建议每小时1次
- *
- * 此版本暂定默认帮助HelloWorld，帮助助力池
- * export HELP_HW = true    // 帮助HelloWorld
- * export HELP_POOL = true  // 帮助助力池
- *
  * 使用jd_env_copy.js同步js环境变量到ts
  * 使用jd_ts_test.ts测试环境变量
+ *
+ * cron: 0 * * * *
  */
 
 import axios from 'axios';
-import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, getJxToken, getRandomNumberByRange} from './TS_USER_AGENTS';
 import {Md5} from 'ts-md5'
 import * as dotenv from 'dotenv';
+import {getDate} from 'date-fns';
+import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, getJxToken, getRandomNumberByRange} from './TS_USER_AGENTS';
 
 dotenv.config()
 let cookie: string = '', res: any = '', shareCodes: string[] = [], shareCodesSelf: string[] = [], shareCodesHW: string[] = [], isCollector: Boolean = false, USER_AGENT = 'jdpingou;android;4.13.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17690;partner/xiaomi;;session/704;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.120 Mobile Safari/537.36', token: any = {};
@@ -62,6 +60,10 @@ interface Params {
   size?: number,
   type?: number,
   strLT?: string,
+  dwQueryType?: number,
+  dwPageIndex?: number,
+  dwPageSize?: number,
+  dwProperty?: number,
 }
 
 let UserName: string, index: number;
@@ -80,6 +82,24 @@ let UserName: string, index: number;
     } catch (e) {
       console.log(e)
     }
+
+    // 当日累计获得财富
+    let todayMoney: number = 0, flag: boolean = true;
+    for (let dwPageIndex = 0; dwPageIndex < 5; dwPageIndex++) {
+      if (!flag) break
+      res = await api('user/GetMoneyDetail', '_cfd_t,bizCode,dwEnv,dwPageIndex,dwPageSize,dwProperty,dwQueryType,ptag,source,strZone',
+        {dwQueryType: 0, dwPageIndex: 1, dwPageSize: 10, dwProperty: 1})
+      await wait(1000)
+      for (let t of res?.Detail) {
+        if (getDate(t.ddwTime * 1000) === getDate(new Date())) {
+          todayMoney += t.ddwValue
+        } else {
+          flag = false
+          break
+        }
+      }
+    }
+    console.log('今日累计获得财富:', todayMoney)
 
     // 离线
     res = await api('user/QueryUserInfo',
@@ -159,7 +179,51 @@ let UserName: string, index: number;
       await wait(3000)
     }
 
+    // 珍珠
+    res = await api('user/ComposePearlState', '', {__t: Date.now(), dwGetType: 0})
+    let dwCurProgress: number = res.dwCurProgress, strDT: string = res.strDT, strMyShareId: string = res.strMyShareId, ddwSeasonStartTm: number = res.ddwSeasonStartTm
+    let strLT: string = res.oPT[res.ddwCurTime % (res.oPT.length)]
+    console.log(`已合成${dwCurProgress}个珍珠，${res.ddwVirHb / 100}元红包`)
 
+    if (res.dayDrawInfo.dwIsDraw === 0) {
+      res = await api("user/GetPearlDailyReward", "__t,strZone", {__t: Date.now()})
+      if (res.iRet === 0) {
+        res = await api("user/PearlDailyDraw", "__t,ddwSeaonStart,strToken,strZone", {__t: Date.now(), ddwSeaonStart: ddwSeasonStartTm, strToken: res.strToken})
+        if (res.strPrizeName) {
+          console.log('抽奖获得：', res.strPrizeName)
+        } else {
+          console.log('抽奖失败？', res)
+        }
+      }
+    }
+    // 模拟合成
+    if (dwCurProgress < 8 && strDT) {
+      console.log('继续合成')
+      let RealTmReport: number = getRandomNumberByRange(10, 20)
+      console.log('本次合成需要上报：', RealTmReport)
+      for (let j = 0; j < RealTmReport; j++) {
+        res = await api('user/RealTmReport', '', {__t: Date.now(), dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 10})
+        if (res.iRet === 0)
+          console.log(`游戏中途上报${j + 1}：OK`)
+        await wait(2000)
+        if (getRandomNumberByRange(1, 4) === 2) {
+          res = await api('user/ComposePearlAward', '__t,size,strBT,strZone,type', {__t: Date.now(), size: 1, strBT: strDT, type: 4})
+          if (res.iRet === 0) {
+            console.log(`上报得红包:${res.ddwAwardHb / 100}红包，当前有${res.ddwVirHb / 100}`)
+          } else {
+            console.log('上报得红包失败：', res)
+          }
+          await wait(1000)
+        }
+      }
+      // 珍珠奖励
+      res = await api(`user/ComposePearlAddProcess`, '__t,strBT,strLT,strZone', {__t: Date.now(), strBT: strDT, strLT: strLT})
+      if (res.iRet === 0) {
+        console.log(`合成成功：获得${res.ddwAwardHb / 100}红包，当前有${res.dwCurProgress}珍珠，${res.ddwVirHb / 100}红包`)
+      } else {
+        console.log('合成失败：', res)
+      }
+    }
 
     // 签到 助力奖励
     res = await api('story/GetTakeAggrPage', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
@@ -404,7 +468,7 @@ let UserName: string, index: number;
   }
 
   try {
-    let {data}: any = await axios.get('https://api.jdsharecode/api/HW_CODES', {timeout: 10000})
+    let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/HW_CODES', {timeout: 10000})
     shareCodesHW = data['jxcfd'] || []
   } catch (e) {
   }
@@ -412,7 +476,7 @@ let UserName: string, index: number;
   for (let i = 0; i < cookiesArr.length; i++) {
     // 获取随机助力码
     try {
-      let {data}: any = await axios.get('https://api.jdsharecode/api/jxcfd/20', {timeout: 10000})
+      let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/jxcfd/20', {timeout: 10000})
       console.log('获取到20个随机助力码:', data.data)
       shareCodes = [...shareCodesSelf, ...shareCodesHW, ...data.data]
     } catch (e) {
