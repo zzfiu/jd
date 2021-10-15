@@ -124,8 +124,8 @@ async function cfd() {
     //await composePearlState(4)
 
     //助力奖励
-    //await $.wait(2000)
-    //await composePearlState(2)
+    await $.wait(2000)
+    await composePearlState(2)
 
     //合成月饼
  //   let count = $.isNode() ? (process.env.JD_CFD_RUNNUM ? process.env.JD_CFD_RUNNUM * 1 : Math.floor((Math.random() * 2)) + 3) : ($.getdata('JD_CFD_RUNNUM') ? $.getdata('JD_CFD_RUNNUM') * 1 : Math.floor((Math.random() * 2)) + 3);
@@ -617,7 +617,7 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `http:///api/v3/jxbfd/query/${randomCount}/`,
+      url: `http://share.turinglabs.net/api/v3/jxbfd/query/${randomCount}/`,
       'timeout': 10000
     }, (err, resp, data) => {
       try {
