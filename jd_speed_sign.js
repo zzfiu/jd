@@ -92,7 +92,7 @@ async function jdGlobal() {
     //await wheelsHome()
     //await apTaskList()
     //await wheelsHome()
-    //if ($.canhelp) {
+    if ($.canhelp) {
       console.log(`\n京东账号${$.index}\n`);    
       //await invite()
       //await invite2()
