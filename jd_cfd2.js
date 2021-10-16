@@ -84,7 +84,24 @@ $.appId = 10028;
       await $.wait(2000);
     }
   }
+  let res = await getAuthorShareCode('')
+  if (!res) {
+    $.http.get({url: ''}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+    await $.wait(1000)
+    res = await getAuthorShareCode('')
+  }
+  $.strMyShareIds = [...(res && res.shareId || [])]
+  await shareCodesFormat()
+  for (let i = 0; i < cookiesArr.length; i++) {
+    cookie = cookiesArr[i];
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.canHelp = true
+    UA = UAInfo[$.UserName]
+    num = 0
 
+        }
+      }
+    }
   }
   await showMsg();
 })()
