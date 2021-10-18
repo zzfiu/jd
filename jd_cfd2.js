@@ -37,7 +37,7 @@ $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [];
 let cookiesArr = [], cookie = '', token = '';
-let UA, UAInfo = {}, num
+let UA, UAInfo = {};
 let nowTimes;
 const randomCount = $.isNode() ? 20 : 3;
 if ($.isNode()) {
@@ -109,7 +109,7 @@ async function cfd() {
 
     // 寻宝
     //console.log(`寻宝`)
-    //let XBDetail = beginInfo.XbStatus.XBDetail.filter((x) => x.dwRemainCnt !== 0)
+    //let XBDetail = beginInfo.XbStatus.XBDetail.filter((x) => x.dwRemainCnt !== 0 && x.dwRemainCnt !== 2)
     //if (XBDetail.length !== 0) {
     //  console.log(`开始寻宝`)
     //  for (let key of Object.keys(XBDetail)) {
@@ -122,12 +122,12 @@ async function cfd() {
     //}
 
     //每日签到
-    //await $.wait(2000)
-    //await getTakeAggrPage('sign')
+    await $.wait(2000)
+    await getTakeAggrPage('sign')
 
     //小程序每日签到
-    await $.wait(2000)
-    await getTakeAggrPage('wxsign')
+    //await $.wait(2000)
+    //await getTakeAggrPage('wxsign')
 
     //助力奖励
     //await $.wait(2000)
@@ -163,7 +163,7 @@ async function cfd() {
     //      console.log(`请贵宾下船，需等待${vo.Special.dwWaitTime}秒`)
     //      await specialUserOper(vo.strStoryId, '2', vo.ddwTriggerDay, vo)
     //      await $.wait(vo.Special.dwWaitTime * 1000)
-    //     await specialUserOper(vo.strStoryId, '3', vo.ddwTriggerDay, vo)
+    //      await specialUserOper(vo.strStoryId, '3', vo.ddwTriggerDay, vo)
     //      await $.wait(2000)
     //    } else {
     //      console.log(`当前暂无贵宾\n`)
@@ -223,7 +223,7 @@ async function cfd() {
     //await $.wait(2000);
     //await employTourGuideInfo();
 
-    console.log(`\n做任务`)
+    //console.log(`\n做任务`)
     //牛牛任务
     //await $.wait(2000)
     //await getActTask()
@@ -268,6 +268,9 @@ function TreasureHunt(strIndex) {
               console.log(`${data.strAwardDesc}，获得 ${data.AwardInfo.ddwValue} 金币`)
             } else if (data.AwardInfo.dwAwardType === 1) {
               console.log(`${data.strAwardDesc}，获得 ${data.AwardInfo.ddwValue} 财富`)
+              console.log(JSON.stringify(data))
+            } else if (data.AwardInfo.dwAwardType === 4) {
+              console.log(`${data.strAwardDesc}，获得 ${data.AwardInfo.strPrizePrice} 红包`)
             } else {
               console.log(JSON.stringify(data))
             }
@@ -839,7 +842,7 @@ async function getActTask(type = true) {
           if (type) {
             for (let key of Object.keys(data.Data.TaskList)) {
               let vo = data.Data.TaskList[key]
-              if ([1, 2].includes(vo.dwOrderId) && (vo.dwCompleteNum !== vo.dwTargetNum)) {
+              if ([1, 2].includes(vo.dwOrderId) && (vo.dwCompleteNum !== vo.dwTargetNum) && vo.dwTargetNum < 10) {
                 console.log(`开始【🐮牛牛任务】${vo.strTaskName}`)
                 for (let i = vo.dwCompleteNum; i < vo.dwTargetNum; i++) {
                   console.log(`【🐮牛牛任务】${vo.strTaskName} 进度：${i + 1}/${vo.dwTargetNum}`)
@@ -1158,9 +1161,8 @@ function helpByStage(shareCodes) {
             console.log(`助力失败：${data.sErrMsg}`)
             $.canHelp = false
           } else if (data.iRet === 2229 || data.sErrMsg === '助力失败啦~') {
-            console.log(`助力失败：您的账号或被助力的账号可能已黑，请联系客服`)
-            num++
-            if (num === 5) $.canHelp = false
+            console.log(`助力失败：您的账号已黑`)
+            $.canHelp = false
           } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.delcode = true
@@ -1240,7 +1242,7 @@ function getUserInfo(showInvite = true) {
             console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
             $.shareCodes.push(strMyShareId)
-            await uploadShareCode(strMyShareId)
+            await uploadShareCode(strMyShareId, $.UserName)
           }
           $.info = {
             ...$.info,
@@ -1622,9 +1624,9 @@ function readShareCode() {
     resolve()
   })
 }
-function uploadShareCode(code) {
+function uploadShareCode(code, pin) {
   return new Promise(async resolve => {
-    $.get({url: `http://transfer.nz.lu/upload/cfd?code=${code}`, timeout: 10000}, (err, resp, data) => {
+    $.post({url: `http://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent(pin))}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -1639,6 +1641,8 @@ function uploadShareCode(code) {
               console.log(`车位已满，请等待下一班次\n`)
             } else if (data === 'exist') {
               console.log(`助力码已经提交过了~\n`)
+            } else if (data === 'not in whitelist') {
+              console.log(`提交助力码失败，此用户不在白名单中\n`)
             } else {
               console.log(`未知错误：${data}\n`)
             }
@@ -1661,6 +1665,8 @@ function shareCodesFormat() {
     const readShareCodeRes = await readShareCode();
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
+    } else {
+      $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
     }
     console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
