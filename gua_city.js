@@ -27,8 +27,8 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let inviteCodes = [
-  'RtGKzLitQAuhd9WYQ9Ywgtl0SVrtZ_csZgj-_frNdc-4TUBpTw',
-  'RtGKzumhEwqkf4XJEtw2hOayabLpYigKFTc0QfhJSVwCKVVc3w'
+  'RtGKzr6tQw2jetbLFIcw13YzTZdWcaYzDYOtJVIP7Qi_6LoOUw',
+  ''
 ]
 $.shareCodesArr = [];
 
@@ -244,6 +244,7 @@ function getInfo(inviteId, flag = false) {
 function receiveCash(roundNum = '') {
   let body = {"cashType":2}
   if(roundNum) body = {"cashType":1,"roundNum":roundNum}
+  if(roundNum == -1) body = {"cashType":4}  
   return new Promise((resolve) => {
     $.post(taskPostUrl("city_receiveCash",body), async (err, resp, data) => {
       try {
@@ -279,6 +280,10 @@ function getInviteInfo() {
           if (safeGet(data)) {
             // console.log(data)
             data = JSON.parse(data);
+            if(data.data.result.masterData.actStatus == 2){
+              console.log('领取赚赏金')
+              await receiveCash(-1)
+            }            
           }
         }
       } catch (e) {
