@@ -133,12 +133,12 @@ async function jdFruit() {
         }
         return
       }
-      await doDailyTask();
-      await doTenWater();//浇水十次
-      await getFirstWaterAward();//领取首次浇水奖励
-      await getTenWaterAward();//领取10浇水奖励
-      await getWaterFriendGotAward();//领取为2好友浇水奖励
-      await duck();
+      //await doDailyTask();
+      //await doTenWater();//浇水十次
+      //await getFirstWaterAward();//领取首次浇水奖励
+      //await getTenWaterAward();//领取10浇水奖励
+      //await getWaterFriendGotAward();//领取为2好友浇水奖励
+      //await duck();
       if(!process.env.DO_TEN_WATER_AGAIN){
         console.log('执行再次浇水')
         await doTenWaterAgain();//再次浇水
@@ -810,7 +810,7 @@ async function clockInIn() {
 }
 //
 async function getAwardInviteFriend() {
-  await friendListInitForFarm();//查询好友列表
+  //await friendListInitForFarm();//查询好友列表
   // console.log(`查询好友列表数据：${JSON.stringify($.friendList)}\n`)
   if ($.friendList) {
     console.log(`\n今日已邀请好友${$.friendList.inviteFriendCount}个 / 每日邀请上限${$.friendList.inviteFriendMax}个`);
