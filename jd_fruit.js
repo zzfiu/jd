@@ -1321,7 +1321,7 @@ function requireConfig() {
     notify = $.isNode() ? require('./sendNotify') : '';
     //Node.js用户请在jdCookie.js处填写京东ck;
     const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-    const jdFruitShareCodes = $.isNode() ? require('./jdFruitShareCodes.js') : '';
+    const jdFruitShareCodes = $.isNode() ? require('./jd.js') : '';
     //IOS等用户直接用NobyDa的jd cookie
     if ($.isNode()) {
       Object.keys(jdCookieNode).forEach((item) => {
