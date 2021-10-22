@@ -29,7 +29,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
 let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
 const inviteCodes = [
-  '',
+  'T0225KkcRkwQ91PXJE-ll6QJdQCjVQmoaT5kRrbA@T0225KkcRx0apwHTckn3nPEMdACjVQmoaT5kRrbA@T0225KkcRhwb8FPfcxr9xf8NIACjVQmoaT5kRrbA@T022v_11RB0Y9VbUPRnwkfYCdgCjVQmoaT5kRrbA@T0225KkcRhscp1TQIRynkf8PJgCjVQmoaT5kRrbA@T0225KkcREoQ9FXVKUz2wPUJIACjVQmoaT5kRrbA@T0225KkcR0oR8V3RJ073xvdYcgCjVQmoaT5kRrbA@T012aUT6laW7IO91CjVQmoaT5kRrbA@T0225KkcRBYYplXQIBnywfdbJQCjVQmoaT5kRrbA@T018aG_llZeS_VzfKBL8nACjVQmoaT5kRrbA@T0225KkcRUtI9AGEIx72nPBecwCjVQmoaT5kRrbA@T0225KkcRhsc8VHRIUmhxqJecACjVQmoaT5kRrbA@T0225KkcRhgf_QDRIBLxwvUNdgCjVQmoaT5kRrbA@T019-akgG2pxpAOtYV2I4ZECjVQmoaT5kRrbA@T0225KkcRk8bp1LeIR-ilP4PIACjVQmoaT5kRrbA@T0225KkcRBpM_AeEI0_0k_9ZfACjVQmoaT5kRrbA@T0205KkcNVtcqRSxYU-o8I12CjVQmoaT5kRrbA@T0225KkcRktNoFPedEmhlP8CIgCjVQmoaT5kRrbA@T0205KkcElhNvTeBekKD5aZeCjVQmoaT5kRrbA@T019-aktJUVIrSuLd0adw48CjVQmoaT5kRrbA@T018y6AqHEdImieLcVivwQCjVQmoaT5kRrbA@T0225KkcRksR8lffc0igkP8CcgCjVQmoaT5kRrbA@T0205KkcFFp9szKVY2yX55JTCjVQmoaT5kRrbA@T0225KkcRBsboFyBdk_2wPACJgCjVQmoaT5kRrbA@T018v_h0QxYd81XSIB2b1ACjVQmoaT5kRrbA@T0225KkcRBsbp1HedB2hwqINcgCjVQmoaT5kRrbA@T0205KkcI3lYvxWoWG-G9qZeCjVQmoaT5kRrbA@T0225KkcRxsR8VCDIhqmxvYNIQCjVQmoaT5kRrbA@T020a0jHlaGZIMFa9qNPQmmPCjVQmoaT5kRrbA@T0205KkcGUV8oTWjUUaz9pZ8CjVQmoaT5kRrbA@T0225KkcRE0e9gfTJxKgwvQPcQCjVQmoaT5kRrbA@T0225KkcR0oZ_AeBcRv1kfMCfACjVQmoaT5kRrbA@T018v_V0QB0Q8lPXJxqb1ACjVQmoaT5kRrbA@T0225KkcRBZKp12CdBmmkKFZfQCjVQmoaT5kRrbA@T0077KwqE0UCjVQmoaT5kRrbA@T0225KkcRE1MoVDVIh_yx_BbdACjVQmoaT5kRrbA@T0146KE6BV5DsAq4fQCjVQmoaT5kRrbA@T0225KkcREhMp1KBcR7xnPEIIQCjVQmoaT5kRrbA@T0225KkcRB4aowLQJ06ilfANcQCjVQmoaT5kRrbA@T0225KkcRxka81LTchn9kaIOJQCjVQmoaT5kRrbA@T0205KkcKWxqiQKTfWev9oRiCjVQmoaT5kRrbA@T0205KkcNVhsgCq9fV6Uw5JzCjVQmoaT5kRrbA@T0205KkcBlReqiWqdm-J_q1rCjVQmoaT5kRrbA@T0225KkcRhZP8l3VJhn3k6NcdwCjVQmoaT5kRrbA@T0225KkcRRxL9VPUdh32lKVeIACjVQmoaT5kRrbA@T0225KkcRBpM8lODJkv8xvFYdgCjVQmoaT5kRrbA@T0225KkcRxtLo1KDdkugkaZeIQCjVQmoaT5kRrbA@T0225KkcRkgbplbSIk-hkvYOIACjVQmoaT5kRrbA@T0225KkcR00cpFeDc0-hl6YCdgCjVQmoaT5kRrbA@T0225KkcRRsa9gDUKRKgwfYPdQCjVQmoaT5kRrbA@T0205KkcIm1Ckj2UR26l8KJKCjVQmoaT5kRrbA@T0225KkcR0tPpFOGI073x_cLcwCjVQmoaT5kRrbA@T019-akXCU1KlTCiaE-v8Y0CjVQmoaT5kRrbA@T0205KkcE2NArhK3QmuQ5apzCjVQmoaT5kRrbA@T0225KkcRkgY8waCJxPynPILdgCjVQmoaT5kRrbA@T0205KkcHkRfggurQ1OxzYB4CjVQmoaT5kRrbA@T0225KkcREwfoVXTdBz2xfIPdACjVQmoaT5kRrbA@T0225KkcR00e8wDVJxLzl_BbcwCjVQmoaT5kRrbA@T0205KkcP0pktAiOXFic54hXCjVQmoaT5kRrbA@T018v_V1RRYb9V3QIh-b1ACjVQmoaT5kRrbA@T0205KkcGmN9gg-sV3-357R8CjVQmoaT5kRrbA@T019-akCOXlQhC2dWHqv440CjVQmoaT5kRrbA@T0225KkcRR8aoAKEIE-mkKNYdgCjVQmoaT5kRrbA@T019_64rQR0f9FLQKBjxnPECjVQmoaT5kRrbA',
   '',
 ];
 const randomCount = $.isNode() ? 20 : 5;
@@ -114,21 +114,6 @@ function interact_template_getHomeData(timeout = 0) {
             //签到
             if (data.data.result.taskVos[i].taskName === '邀请好友助力') {
               console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}\n`);
-			  // ***************************
-			  // 报告运行次数
-			  $.get({
-				url: `https://hz.zzf.red/api/runTimes?activityId=sgmh&sharecode=${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}`,
-				timeout: 10000
-			  }, (err, resp, data) => {
-				if (err) {
-				  console.log('上报失败', err)
-				} else {
-				  if (data === '1' || data === '0') {
-					console.log('上报成功')
-				  }
-				}
-			  })
-			  // ***************************
               for (let code of $.newShareCodes) {
                 if (!code) continue
                 await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
@@ -327,7 +312,10 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `https://hz.zzf.red/api/sgmh/${randomCount}`,
+      url: `https:///api/sgmh/${randomCount}`,
+      headers: {
+        'Host':'api.jdsharecode.xyz'
+      },
       timeout: 10000
     }, (err, resp, data) => {
       try {
