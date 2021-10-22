@@ -125,10 +125,7 @@ async function jdPet() {
       // ***************************
       // 报告运行次数
       $.get({
-        url: `https://cdn.nz.lu/api/runTimes?activityId=pet&sharecode=${$.petInfo.shareCode}`,
-        headers: {
-          'Host': 'api.jdsharecode.xyz'
-        },
+        url: `https://hz.zzf.red/api/runTimes?activityId=pet&sharecode=${$.petInfo.shareCode}`,
         timeout: 10000
       }, (err, resp, data) => {
         if (err) {
@@ -472,7 +469,7 @@ async function showMsg() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https:///api/pet/${randomCount}`, headers:{'Host':'api.jdsharecode.xyz'}, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `https://hz.zzf.red/api/pet/${randomCount}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
