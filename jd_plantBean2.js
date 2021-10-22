@@ -72,8 +72,8 @@ let num;
       subTitle = '';
       option = {};
       await shareCodesFormat();
-      await jdPlantBean();
-      await showMsg();
+      //await jdPlantBean();
+      //await showMsg();
     }
   }
   if ($.isNode() && allMessage) {

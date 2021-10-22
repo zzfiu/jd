@@ -133,7 +133,7 @@ async function jdDreamFactory() {
     await userInfo();
     await QueryFriendList();//查询今日招工情况以及剩余助力次数
     // await joinLeaderTuan();//参团
-    、、await helpFriends();
+    //await helpFriends();
     if (!$.unActive) return
     // await collectElectricity()
     await getUserElectricity();
