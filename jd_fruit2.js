@@ -117,22 +117,12 @@ async function jdFruit() {
       //await masterHelpShare();//助力好友
       if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
         option['open-url'] = urlSchema;
-        $.msg($.name, ``, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\n请去京东APP或微信小程序查看\n点击弹窗即达`, option);
-        if ($.isNode()) {
           //await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName || $.UserName}水果已可领取`, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\n请去京东APP或微信小程序查看`);
         }
         return
       } else if ($.farmInfo.treeState === 1) {
         console.log(`\n${$.farmInfo.farmUserPro.name}种植中...\n`)
       } else if ($.farmInfo.treeState === 0) {
-        //已下单购买, 但未开始种植新的水果
-        option['open-url'] = urlSchema;
-        $.msg($.name, ``, `【京东账号${$.index}】 ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果\n点击弹窗即达`, option);
-        if ($.isNode()) {
-          //await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
-        }
-        return
-      }
       //await doDailyTask();
       //await doTenWater();//浇水十次
       //await getFirstWaterAward();//领取首次浇水奖励
@@ -141,11 +131,11 @@ async function jdFruit() {
       //await duck();
       if(!process.env.DO_TEN_WATER_AGAIN){
         console.log('执行再次浇水')
-        await doTenWaterAgain();//再次浇水
+        //await doTenWaterAgain();//再次浇水
       } else {
         console.log('不执行再次浇水，攒水滴')
       }
-      await predictionFruit();//预测水果成熟时间
+      //await predictionFruit();//预测水果成熟时间
     } else {
       console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
       message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
@@ -254,10 +244,10 @@ async function doDailyTask() {
   //   turntableFarm()//天天抽奖得好礼
   // ])
   await getAwardInviteFriend();
-  await clockInIn();//打卡领水
-  await executeWaterRains();//水滴雨
-  await getExtraAward();//领取额外水滴奖励
-  await turntableFarm()//天天抽奖得好礼
+  //await clockInIn();//打卡领水
+  //await executeWaterRains();//水滴雨
+  //await getExtraAward();//领取额外水滴奖励
+  //await turntableFarm()//天天抽奖得好礼
 }
 async function predictionFruit() {
   console.log('开始预测水果成熟时间\n');
