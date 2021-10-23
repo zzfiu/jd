@@ -10,16 +10,16 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-5 8-18/6 * * * jd_fruit.js, tag=东东农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
+5 6-18/6 * * * jd_fruit.js, tag=东东农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "5 8-18/6 * * *" script-path=jd_fruit.js,tag=东东农场
+cron "5 6-18/6 * * *" script-path=jd_fruit.js,tag=东东农场
 
 =========================Surge============================
-东东农场 = type=cron,cronexp="5 8-18/6 * * *",wake-system=1,timeout=3600,script-path=jd_fruit.js
+东东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=3600,script-path=jd_fruit.js
 
 =========================小火箭===========================
-东东农场 = type=cron,script-path=jd_fruit.js, cronexpr="5 8-18/6 * * *", timeout=3600, enable=true
+东东农场 = type=cron,script-path=jd_fruit.js, cronexpr="5 6-18/6 * * *", timeout=3600, enable=true
 
 jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d9785748014fc6cca821e58427162e9336/fruit/fruit.js
 
@@ -128,11 +128,11 @@ async function jdFruit() {
         }
         return
       }
-      //await doDailyTask();
-      //await doTenWater();//浇水十次
-      //await getFirstWaterAward();//领取首次浇水奖励
-      //await getTenWaterAward();//领取10浇水奖励
-      //await getWaterFriendGotAward();//领取为2好友浇水奖励
+      await doDailyTask();
+      await doTenWater();//浇水十次
+      await getFirstWaterAward();//领取首次浇水奖励
+      await getTenWaterAward();//领取10浇水奖励
+      await getWaterFriendGotAward();//领取为2好友浇水奖励
       await duck();
       if(!process.env.DO_TEN_WATER_AGAIN){
         console.log('执行再次浇水')
@@ -140,7 +140,7 @@ async function jdFruit() {
       } else {
         console.log('不执行再次浇水，攒水滴')
       }
-      //await predictionFruit();//预测水果成熟时间
+      await predictionFruit();//预测水果成熟时间
     } else {
       console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
       message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
@@ -152,7 +152,7 @@ async function jdFruit() {
     if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
     $.msg($.name, '', `${errMsg}`)
   }
-  //await showMsg();
+  await showMsg();
 }
 async function doDailyTask() {
   await taskInitForFarm();
