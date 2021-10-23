@@ -134,7 +134,7 @@ async function jdPlantBean() {
       message += `【上期成长值】${roundList[num - 1].growth}\n`;
       //await receiveNutrients();//定时领取营养液
       //await doHelp();//助力
-      //await doTask();//做日常任务
+      await doTask();//做日常任务
       // await doEgg();
       //await stealFriendWater();
       //await doCultureBean();
