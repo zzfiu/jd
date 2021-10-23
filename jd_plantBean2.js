@@ -72,8 +72,8 @@ let num;
       subTitle = '';
       option = {};
       await shareCodesFormat();
-      //await jdPlantBean();
-      //await showMsg();
+      await jdPlantBean();
+      await showMsg();
     }
   }
   if ($.isNode() && allMessage) {
@@ -99,7 +99,7 @@ async function jdPlantBean() {
         break
       }
     }
-    // console.log(plantBeanIndexResult.data.taskList);
+     console.log(plantBeanIndexResult.data.taskList);
     if ($.plantBeanIndexResult && $.plantBeanIndexResult.code === '0' && $.plantBeanIndexResult.data) {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl
       $.myPlantUuid = getParam(shareUrl, 'plantUuid')
