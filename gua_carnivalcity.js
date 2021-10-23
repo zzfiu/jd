@@ -49,7 +49,7 @@ if ($.isNode()) {
 let inviteCodes = [];
 $.shareCodesArr = [];
 const JD_API_HOST = 'https://api.m.jd.com/api';
-const activeEndTime = '2021/11/13 00:00:00+08:00';//活动结束时间
+const activeEndTime = '2021/11/14 00:00:00+08:00';//活动结束时间
 let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000;
 !(async () => {
   if (!cookiesArr[0]) {
@@ -379,9 +379,9 @@ function indexInfo(flag = false) {
         } else {
           data = $.toObj(data);
           if (data.code === 200) {
-            $.hotProductList = data['data']['hotProductList'];
-            $.brandList = data['data']['brandList'];
-            $.browseshopList = data['data']['browseshopList'];
+            $.hotProductList = data['data']['hotProductList'] || [];
+            $.brandList = data['data']['brandList'] || [];
+            $.browseshopList = data['data']['browseshopList'] || [];
           } else {
             console.log(`异常：${JSON.stringify(data)}`)
             if (data.code && (data.code === 1002 || data.code === 1001)) $.blockAccount = true;
@@ -833,7 +833,7 @@ function taskPostUrl(a,t = {}) {
     headers: {
       "Accept": "application/json, text/plain, */*",
       "Accept-Encoding": "gzip, deflate, br",
-      "Accept-Language": "zh-cn",
+"Accept-Language": "zh-CN,zh-Hans;q=0.9",
       "Connection": "keep-alive",
       "Content-Type": "application/x-www-form-urlencoded",
       "Origin": "https://carnivalcity.m.jd.com",
