@@ -150,7 +150,7 @@ async function sign() {
 function reward_query() {
   return new Promise(resolve => {
     $.get(taskGetUrl("spring_reward_query", {
-      "inviter": ["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24"][Math.floor((Math.random() * 1))],
+      "inviter": ["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"][Math.floor((Math.random() * 1))],
       linkId
     }), async (err, resp, data) => {
       try {
@@ -177,7 +177,7 @@ function reward_query() {
 }
 async function redPacket() {
   return new Promise(resolve => {
-    $.get(taskGetUrl("spring_reward_receive",{"inviter":["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24"][Math.floor((Math.random() * 1))], linkId}),
+    $.get(taskGetUrl("spring_reward_receive",{"inviter":["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"][Math.floor((Math.random() * 1))], linkId}),
         async (err, resp, data) => {
           try {
             if (err) {
@@ -396,7 +396,7 @@ function cashOut(id,poolBaseId,prizeGroupId,prizeBaseId,) {
 function invite() {
   let t = +new Date()
   let inviterId = [
-    "L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24"
+    "L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"
   ][Math.floor((Math.random() * 1))]
   var headers = {
     'Host': 'api.m.jd.com',
