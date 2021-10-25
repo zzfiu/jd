@@ -59,7 +59,7 @@ if ($.isNode()) {
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.authorNum = `${random(1000000, 9999999)}`
             $.activityId = 'cfc218d9250d445a870b3c18b58b5475'
-            $.activityShopId = '59809'
+            $.activityShopId = '1000015026'
             $.activityUrl = `https://lzdz2-isv.isvjcloud.com/dingzhi/fashion/recruit/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
             await rush();
             await $.wait(1000)
