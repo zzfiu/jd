@@ -256,7 +256,7 @@ $.keywordsNum = 0;
                     if ($.isNode()) {
                         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
                     }
-                    continue
+                    break
                 }
                 authorCodeList = [
                     '',
@@ -286,9 +286,9 @@ $.keywordsNum = 0;
                         if(parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
                         else {
                             console.log('由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
-                            continue;
+                            break;
                         }
-                    } else continue;
+                    } else break;
                 } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
                 if ($.bean > 0) {
                     message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
@@ -371,22 +371,22 @@ function task(function_id, body, isCommon = 0) {
                                     $.jdActivityId = data.data.jdActivityId;
                                     $.venderId = data.data.venderId;
                                     $.activityShopId = data.data.venderId;
-                                    continue;
+                                    break;
                                 case 'activityContent':
                                     $.activityContent = data.data;
                                     $.drawInfoName = $.activityContent.drawInfo.name.includes("京豆")
-                                    continue;
+                                    break;
                                 case 'addCart':
                                     console.log(data.data)
-                                    continue
+                                    break
                                 case 'getPrize':
                                     console.log(data.data.name)
                                     $.getPrize = data.data.name;
                                     await notify.sendNotify($.name, data.data.name, '', `\n`);
-                                    continue
+                                    break
                                 default:
                                     $.log(JSON.stringify(data))
-                                    continue;
+                                    break;
                             }
                         }
                     } else {
@@ -587,12 +587,12 @@ function cartFilter_xh(cartData){
     let pid;
     $.pushed = 0
     for(let cartJson of cartData){
-        if($.pushed === removeSize) continue;
+        if($.pushed === removeSize) break;
         for(let sortedItem of cartJson.sortedItems){
-            if($.pushed === removeSize) continue;
+            if($.pushed === removeSize) break;
             pid = typeof (sortedItem.polyItem.promotion) !== "undefined" ? sortedItem.polyItem.promotion.pid : ""
             for(let product of sortedItem.polyItem.products){
-                if($.pushed === removeSize) continue;
+                if($.pushed === removeSize) break;
                 let mainSkuName = product.mainSku.name
                 $.isKeyword = false
                 $.isPush = true
@@ -601,7 +601,7 @@ function cartFilter_xh(cartData){
                         $.keywordsNum += 1
                         $.isPush = false
                         $.keyword = keyword;
-                        continue;
+                        break;
                     } else $.isPush = true
                 }
                 if($.isPush){
