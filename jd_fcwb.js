@@ -1,4 +1,4 @@
-const $ = new Env('老牛-发财挖宝help');
+const $ = new Env('搞基大神-发财挖宝help');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -53,8 +53,12 @@ await BROWSE_CHANNEL(2)
 await BROWSE_CHANNEL(3)
 await BROWSE_CHANNEL(4)
 await help()
+
+for (let i = 0; i < 10; i++) {
+console.log(`挖宝${i}次`) 
       await wb()
 
+    }
     }
   }
 })()
@@ -65,7 +69,7 @@ await help()
     $.done();
   })
 function wb() {
-//https://api.m.jd.com/?functionId=happyDigDo&body={"round":1,"rowIdx":1,"colIdx":3,"linkId":"SS55rTBOHtnLCm3n9UMk7Q"}&t=1635566009980&appid=activities_platform&client=H5&clientVersion=1.0.0
+
  return new Promise((resolve) => {
   let body = {"round":1,"rowIdx":1,"colIdx":3,"linkId":"SS55rTBOHtnLCm3n9UMk7Q"}
   $.get(taskurl('happyDigDo',body), async (err, resp, data) => {
