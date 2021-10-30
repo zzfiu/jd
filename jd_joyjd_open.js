@@ -5,7 +5,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
-    {'activityId':'c884f4e473884217ad8fabcc160ecda0','endTime':1636819200000},
+    {'activityId':'0b9ae940030e4fd0b5b4f807e519a768','endTime':1636819200000},
     // {'activityId':'85201aaf1895431e874132d9c2669afe','endTime':1632067200000},
     // {'activityId':'862d6fa5caf54e36bd810714e889e457','endTime':1632067200000},
     // {'activityId':'30ed2348398c4f4796e585b9b5240a28','endTime':1632067200000},
@@ -119,7 +119,7 @@ async function getReward(){
         'Host' : `jdjoy.jd.com`,
         'Connection' : `keep-alive`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/2aFQv5n58VQjiFduqeHv1SxjveHR/index.html`,
         'Accept-Language' : `zh-cn`
     };
     const body = `{"groupType":5,"configCode":"${$.moduleBaseInfo.configCode}","itemId":1,"eid":"${$.eid}","fp":"${$.fp}"}`;
@@ -151,7 +151,7 @@ async function doTask(){
         'Host' : `jdjoy.jd.com`,
         'Connection' : `keep-alive`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/2aFQv5n58VQjiFduqeHv1SxjveHR/index.html`,
         'Accept-Language' : `zh-cn`
     };
     const body = `{"groupType":${$.oneTask.groupType},"configCode":"${$.moduleBaseInfo.configCode}","itemId":"${$.item.itemId}","eid":"${$.eid}","fp":"${$.fp}"}`;
@@ -180,7 +180,7 @@ async function getActivity(){
         'Cookie': $.cookie,
         'Accept-Encoding' : `gzip, deflate, br`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/2aFQv5n58VQjiFduqeHv1SxjveHR/index.html`,
         'Host' : `jdjoy.jd.com`,
         'Accept-Language' : `zh-cn`,
         'Connection' : `keep-alive`,
