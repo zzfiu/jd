@@ -1,4 +1,4 @@
-const $ = new Env('老牛-发财挖宝help');
+const $ = new Env('搞基大神-发财挖宝help');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -98,7 +98,9 @@ await BROWSE_CHANNEL(4)
 
 for (let i = 0; i < 5; i++) {
 console.log(`挖宝${i}次`) 
-      await wb(fcwbroud,i,i)
+await $.wait(3000)
+      await wb(curRound,i,i)
+      console.log('第'+curRound+'关')
 
     }
     }
@@ -165,10 +167,12 @@ function wb(round,rowIdx,colIdx) {
           if (safeGet(data)) {
             data = JSON.parse(data);
              if(data.success==true){
+                 curRound = data.data.curRound
+                 console.log('第'+curRound+'关')}
                console.log(`export fcwbinviteCode='${data.data.inviteCode}'`)  
                console.log(`export fcwbinviter='${data.data.markedPin}'`)  
              }else if(data.success==false){
-             console.log('黑号 快去买吧 叼毛')}
+             console.log('黑号 快去买吧 叼毛')
           }
         }
       } catch (e) {
