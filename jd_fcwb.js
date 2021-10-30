@@ -8,6 +8,10 @@ let cookiesArr = [], cookie = '', message;
 let fcwbinviteCode=''
 let fcwbinviter=''
 let fcwbroud=''
+let fcwbinviteCodeArr = []
+let fcwbinviterArr= []
+let fcwbinviteCodes=''
+let fcwbinviters=''
 if (process.env.fcwbinviteCode) {
   fcwbinviteCode = process.env.fcwbinviteCode;
 }
@@ -50,20 +54,55 @@ if ($.isNode()) {
         }
         continue
       }
+          if (process.env.fcwbinviteCode && process.env.fcwbinviteCode.indexOf('@') > -1) {
+            fcwbinviteCodeArr = process.env.fcwbinviteCode.split('@');
 
+        }else {
+            fcwbinviteCodes = [process.env.fcwbinviteCode]
+            
+        };
+                    if (process.env.fcwbinviter && process.env.fcwbinviter.indexOf('@') > -1) {
+            fcwbinviterArr = process.env.fcwbinviter.split('@');
+            console.log(`邀请码您选择的是用"@"隔开\n`)
+        } else {
+            
+            fcwbinviters= [process.env.fcwbinviter]
+        };
+        Object.keys(fcwbinviteCodes).forEach((item) => {
+        if (fcwbinviteCodes[item]) {
+            fcwbinviteCodeArr.push(fcwbinviteCodes[item])
+        }
+    })
+            Object.keys(fcwbinviters).forEach((item) => {
+        if (fcwbinviters[item]) {
+            fcwbinviterArr.push(fcwbinviters[item])
+        }
+    })
+          console.log(`共${fcwbinviteCodeArr.length}个邀请码`)
+	        for (let k = 0; k < fcwbinviteCodeArr.length; k++) {
+                $.message = ""
+                fcwbinviteCode = fcwbinviteCodeArr[k]
+                fcwbinviter = fcwbinviterArr[k]
+                $.index = k + 1;
+          
+await help()
+	        }
+    
+    
+    }
 await home()
 await BROWSE_CHANNEL(1)
 await BROWSE_CHANNEL(2)
 await BROWSE_CHANNEL(3)
 await BROWSE_CHANNEL(4)
-await help()
+
 for (let i = 0; i < 5; i++) {
 console.log(`挖宝${i}次`) 
       await wb(fcwbroud,i,i)
 
     }
     }
-  }
+  
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
