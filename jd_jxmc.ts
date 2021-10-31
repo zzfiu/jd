@@ -285,7 +285,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
     // 获取随机红包码
     try {
       resetHosts()
-      let {data}: any = await axios.get(``, {timeout: 10000})
+      let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/jxmchb/30`, {timeout: 10000})
       console.log('获取到30个随机红包码:', data.data)
       shareCodes = Array.from(new Set([...shareCodesHbSelf, ...shareCodesHbHw, ...data.data]))
     } catch (e: any) {
@@ -315,7 +315,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
     // 获取随机助力码
     try {
       resetHosts()
-      let {data}: any = await axios.get(``, {timeout: 10000})
+      let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/jxmc/30`, {timeout: 10000})
       console.log('获取到30个随机助力码:', data.data)
       shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW, ...data.data]))
     } catch (e: any) {
@@ -459,7 +459,7 @@ function makeShareCodesHb(code: string) {
 
 async function getCodes() {
   try {
-    let {data}: any = await axios.get('')
+    let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/HW_CODES')
     shareCodesHW = data.jxmc || []
     shareCodesHbHw = data.jxmchb || []
   } catch (e) {
