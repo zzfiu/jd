@@ -23,7 +23,7 @@ cron "5 0,10,23 * * *" script-path=jd_opencard_CaoJiHuiYuanShe_10-8_10-14.js,tag
 ============小火箭=========
 11.1-11.11 超店会员福利社 = type=cron,script-path=jd_opencard_CaoJiHuiYuanShe_10-8_10-14.js, cronexpr="5 0,10,23 * * *", timeout=3600, enable=true
 */
-let wait = 55555;
+let wait = 1000;
 if (process.env.TT_opencard_wait) {
     console.log(`配置了自定义延迟时间 ${process.env.TT_opencard_wait}`);
     wait = parseInt(process.env.TT_opencard_wait);
