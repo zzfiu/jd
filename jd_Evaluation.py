@@ -25,6 +25,11 @@ jieba.setLogLevel(jieba.logging.INFO)
 pwd = os.path.dirname(os.path.abspath(__file__)) + os.sep
 
 
+def printf(text):
+    print(text)
+    sys.stdout.flush()
+
+
 def getEnvs(label):
     try:
         if label == 'True' or label == 'yes' or label == 'true' or label == 'Yes':
@@ -66,13 +71,13 @@ class getJDCookie(object):
             else:
                 pass
         if os.path.exists(ql_new):
-            print("当前环境青龙面板新版")
+            printf("当前环境青龙面板新版")
             return ql_new
         elif os.path.exists(ql_old):
-            print("当前环境青龙面板旧版")
+            printf("当前环境青龙面板旧版")
             return ql_old
         elif os.path.exists(v4f):
-            print("当前环境V4")
+            printf("当前环境V4")
             return v4f
         return curf
 
@@ -90,7 +95,7 @@ class getJDCookie(object):
                     cks = r.findall(cks)
                     if len(cks) > 0:
                         if 'JDCookies.txt' in ckfile:
-                            print("当前获取使用 JDCookies.txt 的cookie")
+                            printf("当前获取使用 JDCookies.txt 的cookie")
                         cookies = ''
                         for i in cks:
                             if 'pt_key=xxxx' in i:
@@ -106,9 +111,9 @@ class getJDCookie(object):
             if "JD_COOKIE" in os.environ:
                 if len(os.environ["JD_COOKIE"]) > 10:
                     cookies = os.environ["JD_COOKIE"]
-                    print("已获取并使用Env环境 Cookie")
+                    printf("已获取并使用Env环境 Cookie")
         except Exception as e:
-            print(f"【getCookie Error】{e}")
+            printf(f"【getCookie Error】{e}")
 
         # 检测cookie格式是否正确
 
@@ -134,11 +139,11 @@ class getJDCookie(object):
                 return ck, nickname
             else:
                 context = f"账号{userNum}【{pinName}】Cookie 已失效！请重新获取。"
-                print(context)
+                printf(context)
                 return ck, False
         except Exception:
             context = f"账号{userNum}【{pinName}】Cookie 已失效！请重新获取。"
-            print(context)
+            printf(context)
             return ck, False
 
     def iscookie(self):
@@ -152,7 +157,7 @@ class getJDCookie(object):
             r = re.compile(r"pt_key=.*?pt_pin=.*?;", re.M | re.S | re.I)
             result = r.findall(cookies)
             if len(result) >= 1:
-                print("您已配置{}个账号".format(len(result)))
+                printf("您已配置{}个账号".format(len(result)))
                 u = 1
                 for i in result:
                     r = re.compile(r"pt_pin=(.*?);")
@@ -171,13 +176,13 @@ class getJDCookie(object):
                 if len(cookiesList) > 0 and len(userNameList) > 0:
                     return cookiesList, userNameList, pinNameList
                 else:
-                    print("没有可用Cookie，已退出")
+                    printf("没有可用Cookie，已退出")
                     exit(3)
             else:
-                print("cookie 格式错误！...本次操作已退出")
+                printf("cookie 格式错误！...本次操作已退出")
                 exit(4)
         else:
-            print("cookie 格式错误！...本次操作已退出")
+            printf("cookie 格式错误！...本次操作已退出")
             exit(4)
 
 
@@ -202,7 +207,7 @@ if "qjd_zlzh" in os.environ:
     if len(os.environ["qjd_zlzh"]) > 1:
         qjd_zlzh = os.environ["qjd_zlzh"]
         qjd_zlzh = qjd_zlzh.replace('[', '').replace(']', '').replace('\'', '').replace(' ', '').split(',')
-        #print("已获取并使用Env环境 qjd_zlzh:", qjd_zlzh)
+        #printf("已获取并使用Env环境 qjd_zlzh:", qjd_zlzh)
 
 
 # 评价生成
@@ -310,12 +315,12 @@ def start():
                     if j['id'] == 'toComment':
                         cname = j['name']  # 评价按钮名字
                 if cname is None:
-                    #print("没获得到按钮数据，跳过这个商品！")
+                    #printf("没获得到按钮数据，跳过这个商品！")
                     continue
 
                 Ci.append({'name': name, 'oid': oid, 'pid': pid, 'cname': cname, 'multi': multi})
         # except:
-        #     print('获取评价出错，可能ck失效')
+        #     printf('获取评价出错，可能ck失效')
         #     exit()
         return Ci
 
@@ -351,22 +356,22 @@ def start():
             def pjsj():
                 req = requests.post(url, headers=he, data=data)
                 if req.json()['errMsg'] == 'success':
-                    #print("\t普通评价成功！！")
+                    #printf("\t普通评价成功！！")
                     Cent[ce]['评价'] += 1 
                 else:
-                    print("\t普通评价失败了.......")
-                    print(data)
+                    printf("\t普通评价失败了.......")
+                    printf(data)
 
             def pjfw():
                 se_req = requests.get(se_url, headers=he, params=se_data)
                 if se_req.json()['errMsg'] == 'success':
-                    #print("\t服务评价成功！！")
+                    #printf("\t服务评价成功！！")
                     Cent[ce]['服务评价'] += 1 
                 else:
-                    print("\t服务评价失败了.......")
-                    print(se_data)
+                    printf("\t服务评价失败了.......")
+                    printf(se_data)
 
-            print(f'开始评论{i}\t[{da["oid"]}')
+            printf(f'开始评论{i}\t[{da["oid"]}')
 
             if da['cname'] == "评价晒单":
                 pjsj()
@@ -376,8 +381,8 @@ def start():
             elif da['cname'] == '追加评价':
                 pass
             else:
-                print(da['cname'])
-            #print('等待5秒-可持续发展！')
+                printf(da['cname'])
+            #printf('等待5秒-可持续发展！')
             time.sleep(5)
 
     # 晒单
@@ -386,9 +391,9 @@ def start():
         for i, da in enumerate(op(headers,_type=False)):
             if da['cname'] == "追加评价":
                 context = generation(da['name'], _type=0)
-                print(f'开始晒单{i},{da["oid"]}')
+                printf(f'开始晒单{i},{da["oid"]}')
                 if da['multi']:
-                    #print('\t多个商品跳过！')
+                    #printf('\t多个商品跳过！')
                     continue
                 url = 'https://comment-api.jd.com/comment/appendComment?sceneval=2&g_login_type=1&g_ty=ajax'
                 data = {
@@ -401,31 +406,31 @@ def start():
                 }
                 req = requests.post(url, headers=headers, data=data)
                 if req.json()['data']['result'] != {}:
-                    #print("\t晒单成功！！！")
+                    #printf("\t晒单成功！！！")
                     Cent[ce]['晒单'] += 1 
                 else:
-                    print("\t晒单失败...")
-                    print(req.json())
-                #print('等待5秒-可持续发展！')
+                    printf("\t晒单失败...")
+                    printf(req.json())
+                #printf('等待5秒-可持续发展！')
                 time.sleep(5)
 
-    print('### 开始批量评价 ###')
+    printf('### 开始批量评价 ###')
     global cookiesList, userNameList, pinNameList, ckNum, beanCount, userCount
     cookiesList, userNameList, pinNameList = getCk.iscookie()
 
     for i,ck,user,pin in zip(range(1,len(cookiesList)+1),cookiesList,userNameList,pinNameList):
         
-        print(f"** 开始[账号{i}]-{user} **")
+        printf(f"** 开始[账号{i}]-{user} **")
         headers = {
             'cookie': ck,
             'user-agent': 'jdltapp;android;1.0.0;9;860105045422157-bce2658d9db5;network/wifi;model/JKM-AL00a;addressid/0;aid/5d84f5872ec4e5c8;oaid/51fe75e7-7e5d-aefc-fbed-ffffdf7f6bd2;osVer/28;appBuild/694;psn/860105045422157-bce2658d9db5|3;psq/26;uid/860105045422157-bce2658d9db5;adk/;ads/;pap/JA2020_3112531|1.0.0|ANDROID',
         }
         Cent[f'账号{i}[{user}]'] = {'评价':0 , '晒单':0, '服务评价':0}
-        print('开始评价与服务评价！')
+        printf('开始评价与服务评价！')
         ordinary(headers, f'账号{i}[{user}]')
-        print('开始晒单！')
+        printf('开始晒单！')
         sunbw(headers, f'账号{i}[{user}]')
-        print('完成！！。等待10秒')
+        printf('完成！！。等待10秒')
         time.sleep(10)
     msg = ''
     for i in Cent:
