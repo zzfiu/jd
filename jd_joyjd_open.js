@@ -5,8 +5,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
-    {'activityId':'9fdb6cdb7e974b22994ea774ea566470','endTime':1636732800000},
-    //{'activityId':'502503fd2c14494f930c1900f65e22de','endTime':1636732800000},
+   //{'activityId':'6a5cfe9c54944295a489ea06b649a4ed','endTime':1636732800000},
+      {'activityId':'9fdb6cdb7e974b22994ea774ea566470','endTime':1636819199000},
    // {'activityId':'1d43119d79ba4fc3a254c449c6aea1d2','endTime':1636732799000},
     //{'activityId':'40c2d87a71ec40cf96badb810818bb92','endTime':1636732799000},
    // {'activityId':'c884f4e473884217ad8fabcc160ecda0','endTime':1636819200000},
@@ -123,7 +123,7 @@ async function getReward(){
         'Host' : `jdjoy.jd.com`,
         'Connection' : `keep-alive`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/wq/active/3QJwSLii7uy456QQX4ernUS5SADC/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
         'Accept-Language' : `zh-cn`
     };
     const body = `{"groupType":5,"configCode":"${$.moduleBaseInfo.configCode}","itemId":1,"eid":"${$.eid}","fp":"${$.fp}"}`;
@@ -155,7 +155,7 @@ async function doTask(){
         'Host' : `jdjoy.jd.com`,
         'Connection' : `keep-alive`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/wq/active/3QJwSLii7uy456QQX4ernUS5SADC/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
         'Accept-Language' : `zh-cn`
     };
     const body = `{"groupType":${$.oneTask.groupType},"configCode":"${$.moduleBaseInfo.configCode}","itemId":"${$.item.itemId}","eid":"${$.eid}","fp":"${$.fp}"}`;
@@ -184,7 +184,7 @@ async function getActivity(){
         'Cookie': $.cookie,
         'Accept-Encoding' : `gzip, deflate, br`,
         'User-Agent' : $.UA,
-        'Referer' : `https://prodev.m.jd.com/wq/active/3QJwSLii7uy456QQX4ernUS5SADC/index.html`,
+        'Referer' : `https://prodev.m.jd.com/mall/active/3q7yrbh3qCJvHsu3LhojdgxNuWQT/index.html`,
         'Host' : `jdjoy.jd.com`,
         'Accept-Language' : `zh-cn`,
         'Connection' : `keep-alive`,
