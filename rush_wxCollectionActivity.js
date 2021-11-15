@@ -6,25 +6,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
 let activityIdList = [
-"7ba6e649d11c4da7a1b4ba78892f6c39",
-"7b093c347b894731abda124b1bba690e",
-"dd977c155d3942caad4dcddf74f7cd26",
-"d04d9c9dab664f32846fdf3a47e237e8",
-"7371d90caf964a46a3de05ce692a828c",
-"26e0f35a564a47d2aeccaa3b1abf64d3",
-"572e968964b94f388cee57e8438b2213",
-"e9d0fcad02004cc1a48919f3b019dcb7",
-"9d68e15fc5504d2fa13d42a57f9400c5",
-"262d5bfd553e445db23b5ba187c5a9f4",
-"0bd8a7289a854087a345fb0ff105ade0",
-"034f5e9e3c7847f6a08ef37aed88fc3d",
-"6ad57bfeffd14eec9188bb9b03bd4050",
-"6c060742c1904ff1af0053818f50af3d",
-"4954a64047ab49fa8b8d5607ed4fc292",
-"c79447263de24413b0576a6dae5e112e",
-"c69b062803854751b8b208975b6405e7",
-"844604f8a7f940ee80a12f7daa1f80ad",
-"531f465727e74b5292ab7e4b84c4b810",
+
 ]
 let lz_cookie = {}
 
@@ -55,6 +37,7 @@ $.keywordsNum = 0;
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
+    activityIdList = await getActivityIdList('https://raw.githubusercontent.com/FKPYW/dongge/master/code/wxCollectionActivity.json')
     for(let a in activityIdList){
         activityId = activityIdList[a];
         console.log("开起第 "+ a +" 个活动，活动id："+activityId)
@@ -74,10 +57,10 @@ $.keywordsNum = 0;
                     if ($.isNode()) {
                         await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
                     }
-                    break
+                    continue
                 }
                 authorCodeList = [
-                    '',
+                    'b5d9535918264a4f92fff9d314d7db81',
                 ]
                 $.bean = 0;
                 $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
@@ -90,9 +73,9 @@ $.keywordsNum = 0;
                 $.getPrize = null;
                 await addCart();
                 if($.drawInfoName === false || $.getPrize === null){
-                    continue
+                    break
                 } else if($.getPrize != null && !$.getPrize.includes("京豆")){
-                    continue
+                    break
                 }
                 await $.wait(3000)
                 await requireConfig();
@@ -476,6 +459,28 @@ function getSubstr(str, leftStr, rightStr){
     let right = str.indexOf(rightStr, left);
     if(left < 0 || right < left) return '';
     return str.substring(left + leftStr.length, right);
+}
+function getActivityIdList(url) {
+    return new Promise(resolve => {
+        const options = {
+            url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+            }
+        };
+        $.get(options, async (err, resp, data) => {
+            try {
+                if (err) {
+                    $.log(err)
+                } else {
+                if (data) data = JSON.parse(data)
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve(data);
+            }
+        })
+    })
 }
 function getUUID(format = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', UpperCase = 0) {
     return format.replace(/[xy]/g, function (c) {
