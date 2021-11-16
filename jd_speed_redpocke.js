@@ -11,14 +11,11 @@
 [task_local]
 #京东极速版红包
 20 0,22 * * * jd_speed_redpocke.js, tag=京东极速版红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-
 ================Loon==============
 [Script]
 cron "20 0,22 * * *" script-path=jd_speed_redpocke.js,tag=京东极速版红包
-
 ===============Surge=================
 京东极速版红包 = type=cron,cronexp="20 0,22 * * *",wake-system=1,timeout=3600,script-path=jd_speed_redpocke.js
-
 ============小火箭=========
 京东极速版红包 = type=cron,script-path=jd_speed_redpocke.js, cronexpr="20 0,22 * * *", timeout=3600, enable=true
 */
@@ -27,7 +24,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
-const linkIdArr = ["9wdf1YTT2L59Vr-meKskLA", "7ya6o83WSbNhrbYJqsMfFA"];
+const linkIdArr = ["7ya6o83WSbNhrbYJqsMfFA"];
 const signLinkId = '9WA12jYGulArzWS7vcrwhw';
 let linkId;
 if ($.isNode()) {
@@ -70,12 +67,12 @@ if ($.isNode()) {
     }
   }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
 async function jsRedPacket() {
   try {
@@ -150,7 +147,7 @@ async function sign() {
 function reward_query() {
   return new Promise(resolve => {
     $.get(taskGetUrl("spring_reward_query", {
-      "inviter": ["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"][Math.floor((Math.random() * 1))],
+      "inviter": [""][Math.floor((Math.random() * 1))],
       linkId
     }), async (err, resp, data) => {
       try {
@@ -177,7 +174,7 @@ function reward_query() {
 }
 async function redPacket() {
   return new Promise(resolve => {
-    $.get(taskGetUrl("spring_reward_receive",{"inviter":["L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"][Math.floor((Math.random() * 1))], linkId}),
+    $.get(taskGetUrl("spring_reward_receive",{"inviter":[""][Math.floor((Math.random() * 1))], linkId}),
         async (err, resp, data) => {
           try {
             if (err) {
@@ -395,9 +392,7 @@ function cashOut(id,poolBaseId,prizeGroupId,prizeBaseId,) {
 
 function invite() {
   let t = +new Date()
-  let inviterId = [
-    "L4-TSMc1lZ80VjeiqjGmEOqQgvarWYUSGhrXbsc24Qc"
-  ][Math.floor((Math.random() * 1))]
+  let inviterId = ["QjbG7npj44R73JIjks18BQ", "cm56tNtI6Wp-BMwsuR6FyXjHnoIMIapaw7Ql0pR0zus"][Math.floor((Math.random() * 2))]
   var headers = {
     'Host': 'api.m.jd.com',
     'accept': 'application/json, text/plain, */*',
