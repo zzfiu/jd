@@ -6,7 +6,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
-    {'activityId':'46ca9658706e4d43937ec0a185bb4057','endTime':1630425600000},
+    {'activityId': 'f8f34031830d492b94011d660ce2a8bc', 'endTime': 2638201600000},
 ];
 $.UA = '';
 if ($.isNode()) {
