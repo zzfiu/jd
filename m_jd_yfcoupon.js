@@ -1,7 +1,8 @@
-//59 19 * * * m_jd_yfcoupon.js
+//28 19 * * * m_jd_yfcoupon.js
 const {Env} = require('./magic');
 const $ = new Env('M运费券提醒');
-let yfcoupon_days = process.env.YFCOUPON_DAYS ? process.env.YFCOUPON_DAYS * 1 : 3
+let yfcoupon_days = process.env.YFCOUPON_DAYS ? process.env.YFCOUPON_DAYS * 1
+    : 7 || 3
 $.logic = async function () {
     let list = await queryjdcouponlistwithfinance();
     let groupBy = $.groupBy(list, (o) => o.limitStr);
@@ -12,6 +13,8 @@ $.logic = async function () {
             let n = days.toFixed(0);
             if (n <= yfcoupon_days) {
                 $.putMsg(`当前拥有${groupBy[key].length}张运费券, 距离过期还有${n}天`)
+            } else {
+                $.log(`不推送 当前拥有${groupBy[key].length}张运费券, 距离过期还有${n}天`)
             }
             break;
         }
@@ -27,6 +30,7 @@ async function queryjdcouponlistwithfinance() {
         'accept': '*/*',
         'referer': 'https://wqs.jd.com/',
         'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Cookie': $.cookie
     }
     let url = `https://wxa.jd.com/wq.jd.com/activeapi/queryjdcouponlistwithfinance?state=1&wxadd=1&filterswitch=1&sceneval=2&g_login_type=1&g_ty=ls`
     let data = await $.get(url, headers)

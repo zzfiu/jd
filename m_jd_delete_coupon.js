@@ -1,4 +1,4 @@
-//59 19 */3 * * m_delete_coupon.js
+//28 19 */3 * * m_jd_delete_coupon.js
 const {Env} = require('./magic');
 const $ = new Env('M优惠券删除');
 //1.支持删除自定义关键词 @符号分割 例如 棉拖@扫把@瓜子
@@ -57,7 +57,6 @@ $.logic = async function () {
     }
     list = await queryjdcouponlistwithfinance();
     await $.wait(2000, 3000)
-    $.log('---------', list.length);
     for (let coupon of list) {
         let d = true;
         if (coupon.shopId * 1 > 1 && blacklist) {
@@ -95,6 +94,7 @@ async function queryjdcouponlistwithfinance() {
         'accept': '*/*',
         'referer': 'https://wqs.jd.com/',
         'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Cookie': $.cookie
     }
     let url = `https://wxa.jd.com/wq.jd.com/activeapi/queryjdcouponlistwithfinance?state=1&wxadd=1&filterswitch=1&sceneval=2&g_login_type=1&g_ty=ls`
     let data = await $.get(url, headers)
@@ -112,6 +112,7 @@ async function deletecouponlistwithfinance(couponId) {
         'accept': '*/*',
         'referer': 'https://wqs.jd.com/',
         'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Cookie': $.cookie
     }
     let url = `https://wq.jd.com/activeapi/deletecouponlistwithfinance?couponinfolist=${escape(
         `${couponId},1,0`)}&_=${Date.now()}&sceneval=2&g_login_type=1&callback=jsonpCBKC&g_ty=ls`
