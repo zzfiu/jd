@@ -142,7 +142,7 @@ function getTaskDetail(taskId = '') {
                 // 报告运行次数
                 if(data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken){
                   $.get({
-                  url: `https://hz.zzf.red/api/runTimes?activityId=health&sharecode=${data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken}`,
+                  url: `http://192.168.31.101:5702/api/runTimes?activityId=health&sharecode=${data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken}`,
                   timeout: 10000
                   }, (err, resp, data) => {
                     if (err) {
@@ -344,7 +344,7 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `https://hz.zzf.red/api/health/${randomCount}`,
+      url: `http://192.168.31.101:5702/api/health/${randomCount}`,
       timeout: 10000
     }, (err, resp, data) => {
       try {

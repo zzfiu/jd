@@ -655,7 +655,7 @@ function userInfo() {
                 // ***************************
                 // 报告运行次数
                 $.get({
-                  url: `https://hz.zzf.red/api/runTimes?activityId=jxdfactory&sharecode=${data.user.encryptPin}`,
+                  url: `http://192.168.31.101:5702/api/runTimes?activityId=jxdfactory&sharecode=${data.user.encryptPin}`,
                   timeout: 10000
                 }, (err, resp, data) => {
                   if (err) {
@@ -1370,7 +1370,7 @@ async function showMsg() {
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
-    $.get({url: `https://hz.zzf.red/api/jxdfactory/${randomCount}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `http://192.168.31.101:5702/api/jxdfactory/${randomCount}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)

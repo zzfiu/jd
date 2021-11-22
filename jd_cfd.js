@@ -1541,7 +1541,7 @@ function showMsg() {
 
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://hz.zzf.red/api/cfd/20`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.get({url: `http://192.168.31.101:5702/api/cfd/20`, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -1564,7 +1564,7 @@ function readShareCode() {
 }
 function uploadShareCode(code) {
   return new Promise(async resolve => {
-    $.get({url: `https://hz.zzf.red/api/runTimes?activityId=cfd&sharecode=${code}`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.get({url: `http://192.168.31.101:5702/api/runTimes?activityId=cfd&sharecode=${code}`, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))

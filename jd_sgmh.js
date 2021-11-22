@@ -117,7 +117,7 @@ function interact_template_getHomeData(timeout = 0) {
 			  // ***************************
 			  // 报告运行次数
 			  $.get({
-				url: `https://hz.zzf.red/api/runTimes?activityId=sgmh&sharecode=${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}`,
+				url: `http://192.168.31.101:5702/api/runTimes?activityId=sgmh&sharecode=${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}`,
 				timeout: 10000
 			  }, (err, resp, data) => {
 				if (err) {
@@ -327,7 +327,7 @@ function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
     $.get({
-      url: `https://hz.zzf.red/api/sgmh/${randomCount}`,
+      url: `http://192.168.31.101:5702/api/sgmh/${randomCount}`,
       timeout: 10000
     }, (err, resp, data) => {
       try {
