@@ -277,7 +277,7 @@ function openRedPack(strPin, grade) {
 function submitCode(shareCode) {
     if (!shareCode || shareCode == undefined || shareCode.length<=0 ) {return;}
     return new Promise(async resolve => {
-    $.get({url: `?code=${shareCode}&type=jxlhb&user=${$.UserName}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `http://www.helpu.cf/jdcodes/submit.php?code=${shareCode}&type=jxlhb&user=${$.UserName}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
