@@ -1124,6 +1124,7 @@ function getUserInfo(showInvite = true) {
           console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
+          $.showPp = data?.AreaAddr?.dwIsSHowPp ?? 0
           const {
             buildInfo = {},
             ddwRichBalance,
@@ -1144,6 +1145,7 @@ function getUserInfo(showInvite = true) {
             console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
             $.shareCodes.push(strMyShareId)
+            await submitCode(strMyShareId, $.UserName)
             await uploadShareCode(strMyShareId)
           }
           $.info = {
@@ -1213,7 +1215,7 @@ function getTaskList(taskType) {
   return new Promise(async (resolve) => {
     switch (taskType){
       case 0: //日常任务
-        $.get(taskListUrl("GetUserTaskStatusList"), async (err, resp, data) => {
+        $.get(taskListUrl("GetUserTaskStatusList", `taskId=0&showAreaTaskFlag=${$.showPp}`), async (err, resp, data) => {
           try {
             if (err) {
               console.log(`${JSON.stringify(err)}`)
@@ -1268,17 +1270,17 @@ function browserTask(taskType) {
     switch (taskType) {
       case 0://日常任务
         for (let i = 0; i < $.allTask.length; i++) {
-          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes
+          const start = $.allTask[i].completedTimes, end = $.allTask[i].targetTimes, bizCode = $.allTask[i]?.bizCode ?? "jxbfd"
           const taskinfo = $.allTask[i];
           console.log(`开始第${i + 1}个【📆日常任务】${taskinfo.taskName}\n`);
           for (let i = start; i < end; i++) {
             //做任务
             console.log(`【📆日常任务】${taskinfo.taskName} 进度：${i + 1}/${end}`)
-            await doTask(taskinfo.taskId);
+            await doTask(taskinfo.taskId, null, bizCode);
             await $.wait(2000);
           }
           //领取奖励
-          await awardTask(0, taskinfo);
+          await awardTask(0, taskinfo,  "jxbfd");
         }
         break;
       case 1://成就任务
@@ -1302,11 +1304,12 @@ function browserTask(taskType) {
 }
 
 //做任务
-function doTask(taskId, type = 1) {
+function doTask(taskId, type = 1, bizCodeXx) {
   return new Promise(async (resolve) => {
     let bizCode = `jxbfd`;
     if (type === 2) bizCode = `jxbfddch`;
     if (type === 3) bizCode = `jxbfdprop`;
+    if (bizCodeXx) bizCode = bizCodeXx 
     $.get(taskListUrl(`DoTask`, `taskId=${taskId}`, bizCode), (err, resp, data) => {
       try {
         if (err) {
@@ -1325,13 +1328,13 @@ function doTask(taskId, type = 1) {
 }
 
 //领取奖励
-function awardTask(taskType, taskinfo) {
+function awardTask(taskType, taskinfo, bizCode = "jxbfd") {
   return new Promise((resolve) => {
     const {taskId, taskName} = taskinfo;
     const {ddwTaskId, strTaskName} = taskinfo;
     switch (taskType) {
       case 0://日常任务
-        $.get(taskListUrl(`Award`, `taskId=${taskId}`), (err, resp, data) => {
+        $.get(taskListUrl(`Award`, `taskId=${taskId}`, bizCode), (err, resp, data) => {
           try {
             if (err) {
               console.log(`${JSON.stringify(err)}`)
@@ -1541,7 +1544,7 @@ function showMsg() {
 
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://192.168.31.101:5702/api/cfd/20`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.get({url: ``, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -1564,7 +1567,7 @@ function readShareCode() {
 }
 function uploadShareCode(code) {
   return new Promise(async resolve => {
-    $.get({url: `http://192.168.31.101:5702/api/runTimes?activityId=cfd&sharecode=${code}`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.post({url: `https://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -1596,6 +1599,37 @@ function uploadShareCode(code) {
     resolve()
   })
 }
+//提交互助码
+function submitCode(myInviteCode, user) {
+    return new Promise(async resolve => {
+    $.get({url: `http://www.helpu.cf/jdcodes/submit.php?code=${myInviteCode}&type=jxcfd&user=${user}`, timeout: 10000}, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} 提交助力码 API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            //console.log(`随机取个${randomCount}码放到您固定的互助码后面(不影响已有固定互助)`)
+            data = JSON.parse(data);
+            if (data.code === 300) {
+              console.log("🏝互助码已提交🏝");
+            }else if (data.code === 200) {
+              console.log("🏝互助码提交成功🏝");
+            }
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data || {"code":500});
+      }
+    })
+    await $.wait(10000);
+    resolve({"code":500})
+  })
+}
+
+
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
