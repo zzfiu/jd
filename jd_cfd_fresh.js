@@ -78,6 +78,29 @@ if ($.isNode()) {
             await $.wait(2000);
         }
     }
+  await shareCodesFormat()
+  for (let i = 0; i < cookiesArr.length; i++) {
+    cookie = cookiesArr[i];
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.canHelp = true
+    UA = UAInfo[$.UserName]
+    if ($.newShareCodes && $.newShareCodes.length) {
+      console.log(`\n开始互助\n`);
+      for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
+        console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
+        $.delcode = false
+        await helpByStage($.newShareCodes[j])
+        await $.wait(2000)
+        if ($.delcode) {
+          $.newShareCodes.splice(j, 1)
+          j--
+          continue
+        }
+      }
+    } else {
+      break
+    }
+  }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done());
@@ -265,7 +288,7 @@ function composePearlAddProcess(strDT, strLT) {
 }
 function getPearlDailyReward() {
     return new Promise((resolve) => {
-        $.get(taskUrl(`user/GetPearlDailyReward`, `__t=${Date.now()}`), (err, resp, data) => {
+        $.get(taskUrl(`user/GetPpPearlDailyReward`, `__t=${Date.now()}`), (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
@@ -283,7 +306,7 @@ function getPearlDailyReward() {
 }
 function pearlDailyDraw(ddwSeasonStartTm, strToken) {
     return new Promise((resolve) => {
-        $.get(taskUrl(`user/PearlDailyDraw`, `__t=${Date.now()}&ddwSeaonStart=${ddwSeasonStartTm}&strToken=${strToken}`), (err, resp, data) => {
+        $.get(taskUrl(`user/PpPearlDailyDraw`, `__t=${Date.now()}&ddwSeaonStart=${ddwSeasonStartTm}&strToken=${strToken}`), (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
@@ -331,7 +354,7 @@ function composePearlAward(strDT, type, size) {
 // 助力奖励
 function pearlHelpDraw(ddwSeasonStartTm, dwUserId) {
     return new Promise((resolve) => {
-        $.get(taskUrl(`user/PearlHelpDraw`, `__t=${Date.now()}&ddwSeaonStart=${ddwSeasonStartTm}&dwUserId=${dwUserId}`), (err, resp, data) => {
+        $.get(taskUrl(`user/PpPearlHelpDraw`, `__t=${Date.now()}&ddwSeaonStart=${ddwSeasonStartTm}&dwUserId=${dwUserId}`), (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
@@ -356,7 +379,7 @@ function pearlHelpDraw(ddwSeasonStartTm, dwUserId) {
 // 助力
 function helpByStage(shareCodes) {
     return new Promise((resolve) => {
-        $.get(taskUrl(`user/PearlHelpByStage`, `__t=${Date.now()}&strShareId=${shareCodes}`), (err, resp, data) => {
+        $.get(taskUrl(`user/PpPearlHelpByStage`, `__t=${Date.now()}&strShareId=${shareCodes}`), (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${JSON.stringify(err)}`)
