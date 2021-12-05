@@ -40,7 +40,7 @@ let strMessage = "";
             if (intSeq != -1) {
                 intSeq += 1;
                 arrCkPtPin.push(tempptpin);
-                strCk += intSeq + "." + tempptpin + "\n";
+                strCk += "【"+intSeq + "】" + tempptpin + "\n";
             }
         }
     }
@@ -49,17 +49,18 @@ let strMessage = "";
         var tempptpin = arrEnvPtPin[i];
         var intSeq = inArray(tempptpin, arrCkPtPin);
         if (intSeq == -1) {
-            strNoFoundCk += (i + 1) + "." + tempptpin;
+            strNoFoundCk += "【"+(i + 1) + "】" + tempptpin;
             if (arrEnvStatus[i] == 1) {
                 strNoFoundCk += "(状态已禁用)"
             }
+			 strNoFoundCk +="\n";
 
         }
     }
 	
     if (strNoFoundCk) {
-        console.log("没有出现在今日CK队列中的账号: \n" + strNoFoundCk+"\n");
-		strMessage+="没有出现在今日CK队列中的账号: \n" + strNoFoundCk+"\n";
+        console.log("没有出现在今日CK队列中的账号: \n" + strNoFoundCk);
+		strMessage+="没有出现在今日CK队列中的账号: \n" + strNoFoundCk;
     }
 	
 	console.log("\n今日执行任务的账号顺序: \n" + strCk);	
