@@ -50,7 +50,7 @@ let llhelp=true;
 if ($.isNode() && process.env.CC_NOHELPAFTER8) {
 	console.log(NowHour);
 	if (process.env.CC_NOHELPAFTER8=="true"){
-		if (NowHour>8){
+		if (NowHour>14){
 			llhelp=false;
 			console.log(`现在是9点后时段，不启用互助....`);
 		}			
@@ -569,7 +569,7 @@ async function plantBeanIndex() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://api.jdsharecode.xyz/api/bean/${randomCount}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `https:///api/bean/${randomCount}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)

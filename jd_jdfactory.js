@@ -59,7 +59,7 @@ let llhelp=true;
 if ($.isNode() && process.env.CC_NOHELPAFTER8) {
 	console.log(NowHour);
 	if (process.env.CC_NOHELPAFTER8=="true"){
-		if (NowHour>8){
+		if (NowHour>14){
 			llhelp=false;
 			console.log(`现在是9点后时段，不启用互助....`);
 		}			

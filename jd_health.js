@@ -53,7 +53,7 @@ let llhelp=true;
 if ($.isNode() && process.env.CC_NOHELPAFTER8) {
 	console.log(NowHour);
 	if (process.env.CC_NOHELPAFTER8=="true"){
-		if (NowHour>8){
+		if (NowHour>14){
 			llhelp=false;
 			console.log(`现在是9点后时段，不启用互助....`);
 		}			
@@ -413,7 +413,7 @@ function readShareCode() {
 	console.log(`开始`)
 	return new Promise(async resolve => {
 		$.get({
-			url: `https://api.jdsharecode.xyz/api/health/${randomCount}`,
+			url: `https:///api/health/${randomCount}`,
 			'timeout': 10000
 		}, (err, resp, data) => {
 			try {
