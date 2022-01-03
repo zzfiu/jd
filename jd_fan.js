@@ -10,9 +10,9 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList =  [
-    {"actid": "83cf785ee5f74d0f8c35a8ba8a674cf2", "endTime": 1635695999000},
-    {"actid": "7a681393b93e41758f63cb1ed38e811e", "endTime": 1635695999000},
-    {"actid": "28e32a3b6afb4d389d888187a99ce292", "endTime": 1635695999000},
+    {"actid": "83cf785ee5f74d0f8c35a8ba8a674cf2", "endTime": 1835695999000},
+    {"actid": "7a681393b93e41758f63cb1ed38e811e", "endTime": 1835695999000},
+    {"actid": "28e32a3b6afb4d389d888187a99ce292", "endTime": 1835695999000},
 ];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
