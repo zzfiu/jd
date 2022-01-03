@@ -106,9 +106,6 @@ async function run() {
         case 8:
           title = '邀请'
           break;
-        case 11:
-          title = '开通会员'
-          break;
       }
       console.log(`${title} ${$.oneTask.finishCount}/${$.oneTask.itemCount}`)
       let num = $.oneTask.itemCount - $.oneTask.finishCount
