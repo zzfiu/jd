@@ -4,6 +4,8 @@
  环境变量：JX_USER_AGENT, 惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,有能力的可以填上自己的UA,默认生成随机UA
  环境变量：BYTYPE,购买小鸡品种，默认不购买,(ps:暂时不知道买哪个好)
  BYTYPE="1",购买小黄鸡，BYTYPE="2",购买辣子鸡，BYTYPE="3",购买椰子鸡,BYTYPE="4",购买猪肚鸡,BYTYPE="999",能买哪只买哪只,BYTYPE="888",不购买小鸡
+ 环境变量：DOTASKFLAG,没有小鸡时是否做任务，
+ DOTASKFLAG = "1"：没有小鸡时不做任务， DOTASKFLAG = "2"：没有小鸡时做任务，，默认没有小鸡时不做任务
  脚本9点-10点才会执行内部助力
  */
 // prettier-ignore
@@ -18,7 +20,8 @@ const $ = new Env('惊喜牧场');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
-const ByType = $.isNode() ? (process.env.BYTYPE ? process.env.BYTYPE : `999`):`999`;
+const ByType = $.isNode() ? (process.env.BYTYPE ? process.env.BYTYPE : `888`):`888`;
+const DOTASKFLAG = $.isNode() ? (process.env.DOTASKFLAG ? process.env.DOTASKFLAG : `1`):`1`;
 let cookiesArr = [],token = {},ua = '';
 $.appId = 10028;
 let activeid = 'null';
@@ -65,7 +68,7 @@ if ($.isNode()) {
         }
         await $.wait(2000);
     }
-    if(new Date().getHours() !== 9 && new Date().getHours() !== 20){
+    if(new Date().getHours() !== 1 && new Date().getHours() !== 11){
         console.log('\n脚本早上9点到10点直接执行，才会执行账号内互助');
         return ;
     }
@@ -147,10 +150,16 @@ async function main() {
         console.log(`\n温馨提示：${$.UserName} 请先手动完成【新手指导任务】再运行脚本再运行脚本\n`);
         return;
     }
+    $.hasRun = true;
     console.log(`获取获得详情成功,总共有小鸡：${petidList.length}只,鸡蛋:${homePageInfo.eggcnt}个,金币:${homePageInfo.coins},互助码：${homePageInfo.sharekey}`);
     if(!petidList || petidList.length === 0){
-        console.log(`账号内没有小鸡，暂停执行`);
-        return ;
+        $.hasRun = false
+        if(Number(DOTASKFLAG) === 1){
+            console.log(`账号内没有小鸡，暂停执行`);
+            return ;
+        }else{
+            console.log(`账号内没有小鸡，执行任务`);
+        }
     }
     $.inviteCodeList.push({'use':$.UserName,'code':homePageInfo.sharekey,'max':false,'activeid':activeid});
     if(JSON.stringify(visitBackInfo) !== '{}'){
@@ -223,10 +232,13 @@ async function main() {
         await doTask();
         runTime++;
     }while ($.freshFlag  && runTime <5)
-    await $.wait(3000);
-    await doMotion(petidList);
-    await buyCabbage(homePageInfo);
-    await feed();
+
+    if($.hasRun){
+        await $.wait(3000);
+        await doMotion(petidList);
+        await buyCabbage(homePageInfo);
+        await feed();
+    }
     //await doUserLoveInfo();
 }
 
@@ -290,7 +302,7 @@ async function buyChick(configInfo,homePageInfo,cardInfo){
     let cardList = cardInfo.cardinfo || [];
     for (let i = cardList.length-1; i >= 0 && canBuy > 0; i--) {
         let oneCardInfo = cardList[i];
-        if(oneCardInfo.currnum === oneCardInfo.neednum && canBuy > 0){
+        if(oneCardInfo.currnum >= oneCardInfo.neednum && canBuy > 0){
             console.log(`合成一只小鸡`);
             let combineInfo = await takeRequest(`jxmc`,`operservice/Combine`,`&cardtype=${oneCardInfo.cardtype}`,`activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp`,true);
             console.log(`现共有小鸡：${combineInfo.petinfo.length || null}只`);
