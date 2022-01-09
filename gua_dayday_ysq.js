@@ -1,5 +1,5 @@
 /*
- cron 23 0,6,10,12 * * *
+
 */
 
 const $ = new Env('天天压岁钱');
@@ -60,12 +60,13 @@ $.appId = "76a41";
           if(!$.InviteList[c]) continue
           let n = 0
           let s = 0
+          let res = 0
           for(o in $.InviteList[c] || []){
             s = -1
             let item = $.InviteList[c][o]
             if(!item) continue
             s = 1
-            let res = await help(c,item)
+            res = await help(c,item)
             if(res == true){
               delete $.InviteList[c][o]
               console.log(`助力[${c}->${item}]成功`)
