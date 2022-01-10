@@ -1,7 +1,6 @@
-//环游记组队助力及膨胀助力，19点前组队，20点后膨胀
 //created by 奈何桥头小鬼
 //脚本仅限个人学习使用，禁止传播
-const $ = new Env('年兽组队膨胀');
+const $ = new Env('年兽组队');
 
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
@@ -12,21 +11,6 @@ let helpnum=process.env.helpnum ? process.env.helpnum : 1;//默认前三组队�
 let groupnum=process.env.groupnum ? process.env.groupnum : 29;//默认4人参队，即一队5人
 let num=0;
 
-Date.prototype.Format = function (fmt) { //author: meizz
-  var o = {
-    "M+": this.getMonth() + 1, //月份
-    "d+": this.getDate(), //日
-    "h+": this.getHours(), //小时
-    "m+": this.getMinutes(), //分
-    "s+": this.getSeconds(), //秒
-    "S": this.getMilliseconds() //毫秒
-  };
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-  for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-  return fmt;
-}
-let nowtime = new Date().Format("h")
 
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -37,9 +21,9 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let inviteCodes = []
-$.shareCodesArr = [];
+
 $.inviteId  = [];
+
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -55,18 +39,12 @@ $.inviteId  = [];
       await getUA()
     }
   }
-
-
   if(process.env.GROUPInviteId){
     $.inviteId.push(process.env.GROUPInviteId);
     console.log(`\n\n 你已输入组队码，${process.env.GROUPInviteId}\n`)
   }else{
     console.log(`\n\n 你没有输入组队码，将读取前${helpnum}账号助力码\n`)  
   }
-    
-   
-  
-  console.log( nowtime  );
   for (let i = 0; i < helpnum; i++) {
     if (cookiesArr[i]) {
 		cookie = cookiesArr[i];
@@ -78,16 +56,12 @@ $.inviteId  = [];
 		message = '';
 		console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
 		try {
-			await get_secretp()
-      if(nowtime<20){
-        
-        await tigernian_getgrouphelp()
+			  await get_secretp();
 
-      }else{
-        //tigernian_getAmount()
+
+ 
         await tigernian_gethelp()
 
-      }
 
       await $.wait(8000)
 
@@ -97,39 +71,32 @@ $.inviteId  = [];
     }
   }
 
-  for (let m = helpnum; m < cookiesArr.length; m++) {
+
+
+
+
+
+  for (let m = 0; m < cookiesArr.length; m++) {
     cookie = cookiesArr[m];
     $.index = m + 1;
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     $.canHelp = true;
     $.inviteId  = [...new Set($.inviteId )];
-    $.UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-    $.num = 0;
+    $.UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
     
     if (cookiesArr && cookiesArr.length >= 2) {
       console.log(`\n\n自己账号内部互助`);
       for (let j = 0; j < $.inviteId .length && $.canHelp; j++) {
-        let retrynum=0
         console.log(`账号 ${$.index} ${$.UserName} 开始给 ${$.inviteId [j]} 进行助力`)
         $.max = false;
         try {
           await get_secretp()
-        
-          if(nowtime<20){
-            await tigernian_grouphelp($.inviteId [j])
-          
-
-            }else{
-              
-              await tigernian_help($.inviteId [j])
-
-            }
-          
+          await travel_help($.inviteId [j])
     
         }catch(e){
           $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
         }
-        await $.wait(5000)
+        await $.wait(2000)
 	      if ($.max) {
           $.inviteId .splice(j, 1)
           j--
@@ -143,6 +110,9 @@ $.inviteId  = [];
     }
 
   }
+
+
+
 
 })()
   .catch((e) => {
@@ -200,130 +170,6 @@ function tigernian_gethelp(){
   let body={};
 
 	return new Promise((resolve) => {
-		$.post(taskPostUrl("tigernian_pk_getExpandDetail",body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            
-            if (data.code === 0) {
-              console.log(`\n\n 成功获取组队码\n`)
-              
-					console.log(data.data.result.inviteId)
-          $.inviteId.push(data.data.result.inviteId);
-            } else {
-              console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-	})
-}
-
-
-function tigernian_getAmount(){
-	//let body={"taskId":taskId,"taskToken":taskToken,"actionType":1,"ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
-  let body={};
-
-	return new Promise((resolve) => {
-		$.post(taskPostUrl("tigernian_pk_getAmountForecast",body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
-            if (data && data.data && data.data.bizCode===0) {
-              console.log(`\n\n 获得红包${data.data.result.userAward}\n`)
-              console.log(`\n\n 膨胀可获得红包${data.data.result.userAwardExpand}\n`)
-            } else {
-              console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-	})
-}
-
-
-
-
-function tigernian_help(inviteId){
-	//let body={"taskId":taskId,"taskToken":taskToken,"actionType":1,"ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
-  let body={inviteId,"ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
-
-	return new Promise((resolve) => {
-		$.post(taskPostUrl("tigernian_pk_collectPkExpandScore",body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            data = JSON.parse(data);
-            console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
-            if (data && data.data ) {
-              // status ,0:助力成功，1:不能重复助力，3:助力次数耗尽，8:不能为自己助力
-              console.log(`助力结果：${data.data.bizMsg}`)
-              if (data.data.bizCode === 103||data.data.bizCode === -15) $.max = true;
-              if (data.data.bizCode === 6) $.canHelp = false;
-              if (data.data.bizCode === -1002) $.canHelp = false;
-              if (data.data.bizCode === -4001){
-                await $.wait(5000);
-                retrynum=retrynum+1;
-                console.log(`重试第${retrynum}次`)
-                if(retrynum>3){
-                  console.log(`重试失败${retrynum-1}次，跳出`)
-                  return 
-
-                }
-                tigernian_help(inviteId)
-              }
-
-            } else {
-              console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-	})
-}
-
-
-
-
-
-
-
-
-
-
-
-function tigernian_getgrouphelp(){
-	//let body={"taskId":taskId,"taskToken":taskToken,"actionType":1,"ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
-  let body={};
-
-	return new Promise((resolve) => {
 		$.post(taskPostUrl("tigernian_pk_getHomeData",body), async (err, resp, data) => {
       try {
         if (err) {
@@ -333,13 +179,13 @@ function tigernian_getgrouphelp(){
           if (safeGet(data)) {
             data = JSON.parse(data);
             
-            if (data.code === 0) {
+            if (data.code === 0) { 
               console.log(`\n\n 成功获取组队码\n`)
             
 					console.log(data.data.result.groupInfo.groupJoinInviteId)
           $.inviteId.push(data.data.result.groupInfo.groupJoinInviteId);
             } else {
-              console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
+              console.log(`\n\n 获取邀请码失败\n`)
             }
           }
         }
@@ -354,9 +200,9 @@ function tigernian_getgrouphelp(){
 
 
 
-function tigernian_grouphelp(inviteId){
-	//let body={"taskId":taskId,"taskToken":taskToken,"actionType":1,"ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
-  let body={inviteId,"confirmFlag":"1","ss":{"extraData":{"log":"","sceneid":"HYJhPageh5"},"secretp":secretp,"random":randomString(6)}};
+function travel_help(inviteId){
+	//let body={"taskId":taskId,"taskToken":taskToken,"actionType":1,"ss":{"extraData":{"log":"","sceneid":"ZNSZLh5"},"secretp":secretp,"random":randomString(6)}};
+  let body={inviteId,"ss":{"extraData":{"log":"","sceneid":"ZNSZLh5"},"secretp":secretp,"random":randomString(8)}};
 
 	return new Promise((resolve) => {
 		$.post(taskPostUrl("tigernian_pk_joinGroup",body), async (err, resp, data) => {
@@ -368,22 +214,21 @@ function tigernian_grouphelp(inviteId){
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data && data.data ) {
-              // status ,0:助力成功，1:不能重复助力，3:助力次数耗尽，8:不能为自己助力
-              console.log(`助力结果：${data.data.bizMsg}`)
-              if (data.data.bizCode === -3) $.max = true;
-              if (data.data.bizCode === -2) $.canHelp = false;
-              if (data.data.bizCode === -1002) $.canHelp = false;
-              if (data.data.bizCode === 0) {
-                num=num+1
-                console.log(num)
-                if ( num%groupnum === 0) {
-                  $.max = true;
+                // status ,0:助力成功，1:不能重复助力，3:助力次数耗尽，8:不能为自己助力
+                console.log(`助力结果：${data.data.bizMsg}`)
+                if (data.data.bizCode === -3) $.max = true;
+                if (data.data.bizCode === -2) $.canHelp = false;
+                if (data.data.bizCode === -1002) $.canHelp = false;
+                if (data.data.bizCode === 0) {
+                  num=num+1
+                  console.log(num)
+                  if ( num%groupnum === 0) {
+                    $.max = true;
+    
+                  }
   
                 }
-
-              }
-                
-                
+                  
             } else {
               console.log(`\n\n 失败:${JSON.stringify(data)}\n`)
             }
@@ -397,21 +242,6 @@ function tigernian_grouphelp(inviteId){
     })
 	})
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function qryViewkitCallbackResult(taskToken){
 	let body={"dataSource":"newshortAward","method":"getTaskAward","reqParams":`{\"taskToken\":"${taskToken}"}`,"sdkVersion":"1.0.0","clientLanguage":"zh","onlyTimeId":new Date().getTime(),"riskParam":{"platform":"3","orgType":"2","openId":"-1","pageClickKey":"Babel_VKCoupon","eid":"","fp":"-1","shshshfp":"","shshshfpa":"","shshshfpb":"","childActivityUrl":"","userArea":"-1","client":"","clientVersion":"","uuid":"","osVersion":"","brand":"","model":"","networkType":"","jda":"-1"}};
