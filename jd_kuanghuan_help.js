@@ -9,7 +9,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
 let secretp='',inviteCode=[]
 let isLoginInfo = {}
-let helpnum=3;//默认助力前5
+let helpnum=1;//默认助力前5
 $.shareId  = [];
 
 if ($.isNode()) {
