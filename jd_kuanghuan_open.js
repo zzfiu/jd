@@ -55,11 +55,11 @@ $.inviteCode  = [];
       }
       $.discount = 0;
       await Info();
-      await $.wait(2000)
+      await $.wait(200)
       while($.opentime>0){
         $.opentime--
         await Open();
-        await $.wait(500)
+        await $.wait(200)
       }
       
      
