@@ -26,7 +26,7 @@ jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d978574
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
-const $ = new Env('东东农场互助');
+const $ = new Env('东东农场');
 let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, newShareCodes, allMessage = '';
 //助力好友分享码(最多3个,否则后面的助力失败),原因:京东农场每人每天只有3次助力机会
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
@@ -89,21 +89,6 @@ async function jdFruit() {
   try {
     await initForFarm();
     if ($.farmInfo.farmUserPro) {
-      // ***************************
-      // 报告运行次数
-      $.get({
-        url: `http://`+process.env.JDSHAREURL+`/api/runTimes?activityId=farm&sharecode=${$.farmInfo.farmUserPro.shareCode}`,
-        timeout: 10000
-      }, (err, resp, data) => {
-        if (err) {
-          console.log('上报失败', err)
-        } else {
-          if (data === '1' || data === '0') {
-            console.log('上报成功')
-          }
-        }
-      })
-      // ***************************
       // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
@@ -124,19 +109,19 @@ async function jdFruit() {
         option['open-url'] = urlSchema;
         $.msg($.name, ``, `【京东账号${$.index}】 ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果\n点击弹窗即达`, option);
         if ($.isNode()) {
-          await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
+          //await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
         }
         return
       }
-      //await doDailyTask();
-      //await doTenWater();//浇水十次
-      //await getFirstWaterAward();//领取首次浇水奖励
-      //await getTenWaterAward();//领取10浇水奖励
-      //await getWaterFriendGotAward();//领取为2好友浇水奖励
-      //await duck();
+      await doDailyTask();
+      await doTenWater();//浇水十次
+      await getFirstWaterAward();//领取首次浇水奖励
+      await getTenWaterAward();//领取10浇水奖励
+      await getWaterFriendGotAward();//领取为2好友浇水奖励
+      await duck();
       if(!process.env.DO_TEN_WATER_AGAIN){
         console.log('执行再次浇水')
-        //await doTenWaterAgain();//再次浇水
+        await doTenWaterAgain();//再次浇水
       } else {
         console.log('不执行再次浇水，攒水滴')
       }
@@ -152,7 +137,7 @@ async function jdFruit() {
     if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
     $.msg($.name, '', `${errMsg}`)
   }
-  //await showMsg();
+  await showMsg();
 }
 async function doDailyTask() {
   await taskInitForFarm();
@@ -249,10 +234,10 @@ async function doDailyTask() {
   //   turntableFarm()//天天抽奖得好礼
   // ])
   //await getAwardInviteFriend();
-  //await clockInIn();//打卡领水
-  //await executeWaterRains();//水滴雨
-  //await getExtraAward();//领取额外水滴奖励
-  //await turntableFarm()//天天抽奖得好礼
+  await clockInIn();//打卡领水
+  await executeWaterRains();//水滴雨
+  await getExtraAward();//领取额外水滴奖励
+  await turntableFarm()//天天抽奖得好礼
 }
 async function predictionFruit() {
   console.log('开始预测水果成熟时间\n');
@@ -1325,7 +1310,7 @@ function timeFormat(time) {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://`+process.env.JDSHAREURL+`/api/farm/${randomCount}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: ``, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
