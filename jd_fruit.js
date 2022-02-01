@@ -26,7 +26,7 @@ jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d978574
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
-const $ = new Env('东东农场互助');
+const $ = new Env('东东农场');
 let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, newShareCodes, allMessage = '';
 //助力好友分享码(最多3个,否则后面的助力失败),原因:京东农场每人每天只有3次助力机会
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
@@ -89,21 +89,6 @@ async function jdFruit() {
   try {
     await initForFarm();
     if ($.farmInfo.farmUserPro) {
-      // ***************************
-      // 报告运行次数
-      $.get({
-        url: `http://`+process.env.JDSHAREURL+`/api/runTimes?activityId=farm&sharecode=${$.farmInfo.farmUserPro.shareCode}`,
-        timeout: 10000
-      }, (err, resp, data) => {
-        if (err) {
-          console.log('上报失败', err)
-        } else {
-          if (data === '1' || data === '0') {
-            console.log('上报成功')
-          }
-        }
-      })
-      // ***************************
       // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
@@ -124,23 +109,23 @@ async function jdFruit() {
         option['open-url'] = urlSchema;
         $.msg($.name, ``, `【京东账号${$.index}】 ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果\n点击弹窗即达`, option);
         if ($.isNode()) {
-          await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
+          //await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
         }
         return
       }
-      //await doDailyTask();
-      //await doTenWater();//浇水十次
-      //await getFirstWaterAward();//领取首次浇水奖励
-      //await getTenWaterAward();//领取10浇水奖励
-      //await getWaterFriendGotAward();//领取为2好友浇水奖励
-      //await duck();
+      await doDailyTask();
+      await doTenWater();//浇水十次
+      await getFirstWaterAward();//领取首次浇水奖励
+      await getTenWaterAward();//领取10浇水奖励
+      await getWaterFriendGotAward();//领取为2好友浇水奖励
+      await duck();
       if(!process.env.DO_TEN_WATER_AGAIN){
         console.log('执行再次浇水')
-        //await doTenWaterAgain();//再次浇水
+        await doTenWaterAgain();//再次浇水
       } else {
         console.log('不执行再次浇水，攒水滴')
       }
-      //await predictionFruit();//预测水果成熟时间
+      await predictionFruit();//预测水果成熟时间
     } else {
       console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
       message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
@@ -152,7 +137,7 @@ async function jdFruit() {
     if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
     $.msg($.name, '', `${errMsg}`)
   }
-  //await showMsg();
+  await showMsg();
 }
 async function doDailyTask() {
   await taskInitForFarm();
@@ -248,11 +233,11 @@ async function doDailyTask() {
   //   getExtraAward(),//领取额外水滴奖励
   //   turntableFarm()//天天抽奖得好礼
   // ])
-  //await getAwardInviteFriend();
-  //await clockInIn();//打卡领水
-  //await executeWaterRains();//水滴雨
-  //await getExtraAward();//领取额外水滴奖励
-  //await turntableFarm()//天天抽奖得好礼
+  await getAwardInviteFriend();
+  await clockInIn();//打卡领水
+  await executeWaterRains();//水滴雨
+  await getExtraAward();//领取额外水滴奖励
+  await turntableFarm()//天天抽奖得好礼
 }
 async function predictionFruit() {
   console.log('开始预测水果成熟时间\n');
@@ -844,36 +829,6 @@ async function clockInIn() {
   }
   console.log('开始打卡领水活动（签到，关注，领券）结束\n');
 }
-//
-async function getAwardInviteFriend() {
-  await friendListInitForFarm();//查询好友列表
-  // console.log(`查询好友列表数据：${JSON.stringify($.friendList)}\n`)
-  if ($.friendList) {
-    console.log(`\n今日已邀请好友${$.friendList.inviteFriendCount}个 / 每日邀请上限${$.friendList.inviteFriendMax}个`);
-    console.log(`开始删除${$.friendList.friends && $.friendList.friends.length}个好友,可拿每天的邀请奖励`);
-    if ($.friendList.friends && $.friendList.friends.length > 0) {
-      for (let friend of $.friendList.friends) {
-        console.log(`\n开始删除好友 [${friend.shareCode}]`);
-        const deleteFriendForFarm = await request('deleteFriendForFarm', { "shareCode": `${friend.shareCode}`,"version":8,"channel":1 });
-        if (deleteFriendForFarm && deleteFriendForFarm.code === '0') {
-          console.log(`删除好友 [${friend.shareCode}] 成功\n`);
-        }
-      }
-    }
-    await receiveFriendInvite();//为他人助力,接受邀请成为别人的好友
-    if ($.friendList.inviteFriendCount > 0) {
-      if ($.friendList.inviteFriendCount > $.friendList.inviteFriendGotAwardCount) {
-        console.log('开始领取邀请好友的奖励');
-        await awardInviteFriendForFarm();
-        console.log(`领取邀请好友的奖励结果：：${JSON.stringify($.awardInviteFriendRes)}`);
-      }
-    } else {
-      console.log('今日未邀请过好友')
-    }
-  } else {
-    console.log(`查询好友列表失败\n`);
-  }
-}
 //给好友浇水
 async function doFriendsWater() {
   await friendListInitForFarm();
@@ -1325,7 +1280,7 @@ function timeFormat(time) {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://`+process.env.JDSHAREURL+`/api/farm/${randomCount}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: ``, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
