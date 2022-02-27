@@ -23,7 +23,7 @@ const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_US
 const ByType = $.isNode() ? (process.env.BYTYPE ? process.env.BYTYPE : `888`):`888`;
 const DOTASKFLAG = $.isNode() ? (process.env.DOTASKFLAG ? process.env.DOTASKFLAG : `1`):`1`;
 let cookiesArr = [],token = {},ua = '';
-$.appId = 10028;
+$.appId = 00df8;
 let activeid = 'null';
 $.inviteCodeList = [];
 if ($.isNode()) {
@@ -68,7 +68,7 @@ if ($.isNode()) {
         }
         await $.wait(2000);
     }
-    if(new Date().getHours() !== 6 && new Date().getHours() !== 12){
+    if(new Date().getHours() !== 6 && new Date().getHours() !== 17){
         console.log('\n脚本早上9点到10点直接执行，才会执行账号内互助');
         return ;
     }

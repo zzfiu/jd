@@ -1,3 +1,7 @@
+if (!["true"].includes(process.env.JD_Xinruimz)) {
+    console.log("避免自动运行请设置环境变量JD_Xinruimz为\"true\"来运行本脚本")
+    return
+}
 /*
 cron 30 6-20/3 * * * jd_xinruimz.js
 TG https://t.me/duckjobs
@@ -53,6 +57,7 @@ if ($.isNode()) {
                 continue
             }
             await main();
+			await $.wait(10 * 1000);
         }
     }
     if (message !== "") {
@@ -207,7 +212,7 @@ async function fertilizerdotask() {
                 $.log("任务完成")
             }
         }
-        if ($.fertilizertasklist.prodcuts && ["card","car"].includes(process.env.FS_LEVEL)) {
+        if ($.fertilizertasklist.prodcuts) {
             $.log("去完成加购任务..")
             if ($.fertilizertasklist.prodcuts.length != $.fertilizerlist.view_product.length) {
                 for (const vo of $.fertilizertasklist.prodcuts) {
