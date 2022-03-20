@@ -285,18 +285,23 @@ async function doTask() {
         }
         await shopTaskList();
         const { data } = $.shopTaskListRes;
-        let goodShopListARR = [], moreShopListARR = [], shopList = [];
+        let goodShopListARR = [],moreShopListARR = [], shopList = [];
         const { goodShopList, moreShopList } = data;
-        for (let i of goodShopList) {
-          if (i.taskState === '2') {
-            goodShopListARR.push(i);
-          }
-        }
-        for (let j of moreShopList) {
-          if (j.taskState === '2') {
-            moreShopListARR.push(j);
-          }
-        }
+		if (goodShopList) {
+		    for (let i of goodShopList) {
+		        if (i.taskState === '2') {
+		            goodShopListARR.push(i);
+		        }
+		    }
+		}
+		if (moreShopList) {
+		    for (let j of moreShopList) {
+		        if (j.taskState === '2') {
+		            moreShopListARR.push(j);
+		        }
+		    }
+		}
+        
         shopList = goodShopListARR.concat(moreShopListARR);
         for (let shop of shopList) {
           const { shopId, shopTaskId } = shop;
@@ -569,7 +574,7 @@ async function plantBeanIndex() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://api.jdsharecode.xyz/api/bean/${randomCount}`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `/api/bean/${randomCount}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
