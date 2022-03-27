@@ -7,7 +7,7 @@
 或者: 京东APP首页搜索 "玩一玩" ,造物工厂即可
 
 [Script]
-cron "10 0,5-23 * * *" script-path=jd_dreamFactory.js,tag=京喜工厂
+cron "25 0,6,14,21 * * *" script-path=jd_dreamFactory.js,tag=京喜工厂
  */
 
 const $ = new Env('京喜工厂');
@@ -559,22 +559,12 @@ function userInfo() {
                                 try {
                                     if ($.index === 1) {
                                         submitRes = await submitCode0(data.user.encryptPin);
-                                        if (submitRes && submitRes.code === 0) {
-                                            console.log(`🏭京喜工厂-互助码已提交！🏭`);
-                                        }else {
-                                            console.log(`🏭京喜工厂-互助码提交失败！🏭`);
-                                        }
+                                        if (submitRes && submitRes.code === 0) {console.log(`🏭京喜工厂-互助码已提交！🏭`);}else {console.log(`🏭京喜工厂-互助码提交失败！🏭`);}
                                     }else {
                                         submitCodeRes = await submitCode(data.user.encryptPin);
-                                        if (submitCodeRes && submitCodeRes.code === 0) {
-                                            console.log(`🏭京喜工厂-互助码已提交！🏭`);
-                                        }else {
-                                            console.log(`🏭京喜工厂-互助码提交失败！🏭`);
-                                        }
+                                        if (submitCodeRes && submitCodeRes.code === 0) {console.log(`🏭京喜工厂-互助码已提交！🏭`);}else {console.log(`🏭京喜工厂-互助码提交失败！🏭`);}
                                     }
-                                }catch (e) {
-
-                                }
+                                }catch (e) {}
 
                                 console.log(`已投入电力：${production.investedElectric}`);
                                 console.log(`所需电力：${production.needElectric}`);
@@ -598,7 +588,7 @@ function userInfo() {
                                 }
                                 if (production.status === 3) {
                                     $.log(`\n\n商品生产已失效`)
-                                    $.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造`)
+                                    //$.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造`)
                                     allMessage += `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造${$.index !== cookiesArr.length ? '\n\n' : ''}`;
                                 }
                             } else {
