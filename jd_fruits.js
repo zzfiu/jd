@@ -4,7 +4,7 @@
 活动入口：京东APP我的-更多工具-东东农场
 东东农场活动链接：https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html
 一天只能帮助3个人。多出的助力码无效
-cron "5 4,7,18,20 * * *" script-path=jd_fruits.js,tag=东东农场
+cron "5 4,7,16,20 * * *" script-path=jd_fruits.js,tag=东东农场
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 */
 
@@ -19,7 +19,7 @@ notify = $.isNode() ? require('./sendNotify') : '';
 let shareCodes = []
 let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
-let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
+let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
 let randomCount = $.isNode() ? 20 : 5;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
@@ -694,30 +694,34 @@ async function masterHelpShare() {
             continue
         }
         await masterHelp(code);
-        if ($.helpResult.code === '0') {
-            if ($.helpResult.helpResult.code === '0') {
-                try {await farmCount($.UserName);}catch (e) {console.log(e.message)}
-                salveHelpAddWater += $.helpResult.helpResult.salveHelpAddWater;
-                console.log(`【助力好友结果】: 已成功给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力`);
-                console.log(`给好友【${$.helpResult.helpResult.masterUserInfo.nickName}】助力获得${$.helpResult.helpResult.salveHelpAddWater}g水滴`)
-                helpSuccessPeoples += ($.helpResult.helpResult.masterUserInfo.nickName || '匿名用户') + ',';
-            } else if ($.helpResult.helpResult.code === '8') {
-                console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
-            } else if ($.helpResult.helpResult.code === '9') {
-                console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
-            } else if ($.helpResult.helpResult.code === '10') {
-                console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满八人助力`);
+        try {
+            if ($.helpResult.code === '0') {
+                if ($.helpResult.helpResult.code === '0') {
+                    try {await farmCount($.UserName);}catch (e) {console.log(e.message)}
+                    salveHelpAddWater += $.helpResult.helpResult.salveHelpAddWater;
+                    console.log(`【助力好友结果】: 已成功给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力`);
+                    console.log(`给好友【${$.helpResult.helpResult.masterUserInfo.nickName}】助力获得${$.helpResult.helpResult.salveHelpAddWater}g水滴`)
+                    helpSuccessPeoples += ($.helpResult.helpResult.masterUserInfo.nickName || '匿名用户') + ',';
+                } else if ($.helpResult.helpResult.code === '8') {
+                    console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
+                } else if ($.helpResult.helpResult.code === '9') {
+                    console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
+                } else if ($.helpResult.helpResult.code === '10') {
+                    console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满八人助力`);
+                } else {
+                    console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
+                }
+                console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
+                remainTimes = $.helpResult.helpResult.remainTimes;
+                if ($.helpResult.helpResult.remainTimes === 0) {
+                    console.log(`您当前助力次数已耗尽，跳出助力`);
+                    break
+                }
             } else {
-                console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
+                console.log(`助力失败::${JSON.stringify($.helpResult)}`);
             }
-            console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
-            remainTimes = $.helpResult.helpResult.remainTimes;
-            if ($.helpResult.helpResult.remainTimes === 0) {
-                console.log(`您当前助力次数已耗尽，跳出助力`);
-                break
-            }
-        } else {
-            console.log(`助力失败::${JSON.stringify($.helpResult)}`);
+        }catch (e) {
+            console.log(`助力好友出现异常`);
         }
     }
     if ($.isLoon() || $.isQuanX() || $.isSurge()) {
@@ -1168,6 +1172,7 @@ async function masterHelp() {
         version: 2,
         channel: 1
     });
+    await $.wait(2000);
 }
 /**
  * 水滴雨API
