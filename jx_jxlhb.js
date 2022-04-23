@@ -313,7 +313,7 @@ function getAuthorShareCode(url) {
 
 function submitJxlhb(code, user) {
   return new Promise(async resolve => {
-    $.get({url: `http:///share/submit/author?code=${code}&user=${user}&flag=jxlhb`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `http://hz.feverrun.top:99/share/submit/author?code=${code}&user=${user}&flag=jxlhb`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -331,7 +331,7 @@ function submitJxlhb(code, user) {
 function getJxlhb() {
   return new Promise(async resolve => {
     $.get({
-      url: `http:///share/get/author?flag=jxlhb`,
+      url: `http://hz.feverrun.top:99/share/get/author?flag=jxlhb`,
       timeout: 10000
     }, (err, resp, data) => {
       try {
