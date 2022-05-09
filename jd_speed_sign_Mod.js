@@ -72,13 +72,13 @@ async function jdGlobal() {
     await apTaskList()
     await wheelsHome()
 
-    //await signInit()
+    await signInit()
     //await sign()
     $.score = 0
     $.total = 0
     await taskList()
     await queryJoy()
-    // await signInit()
+    await signInit()
     await cash()
     await showMsg()
   } catch (e) {
@@ -100,7 +100,7 @@ async function signInit() {
     $.get(taskUrl('speedSignInit', {
       "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
       "kernelPlatform": "RN",
-      "inviterId":"U44jAghdpW58FKgfqPdotA=="
+      "inviterId":"r9GlvKaWIP+TA4bHLDCqMJslYkfuiJSIQoZPpboxfa8="
     }), async (err, resp, data) => {
       try {
         if (err) {
