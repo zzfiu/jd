@@ -119,29 +119,29 @@ function openCardActivity(activityId, activityUrl, pin, num, againUserIndex) {
       $.card = [];
 
       await getCk();
-      await $.wait(1000);
+      await $.wait(500);
       await getToken();
-      await $.wait(1000);
+      await $.wait(500);
       if ($.Token == "") {
         console.log("获取[token]失败！");
         return;
       }
       await getSimpleActInfoVo();
-      await $.wait(1000);
+      await $.wait(500);
       if ($.userId) {
-        await $.wait(1000);
+        await $.wait(500);
         if ($.Token) await getPin();
         console.log("pin:" + $.Pin);
 
-        await $.wait(1000);
+        await $.wait(500);
         await accessLog();
         if (prefix !== "cjhydz") {
-          await $.wait(1000);
+          await $.wait(500);
           await getActMemberInfo();
         }
-        await $.wait(1000);
+        await $.wait(500);
         await getUserInfo();
-        await $.wait(1000);
+        await $.wait(500);
         //await getOpenCardAllStatuesNew();
 
         if ($.index === 1) {
@@ -150,18 +150,18 @@ function openCardActivity(activityId, activityUrl, pin, num, againUserIndex) {
           $.hisInviterImg = $.attrTouXiang;
         }
 
-        await $.wait(1000);
+        await $.wait(500);
         await joinTeam();
 
         if ($.card.length > 0) {
           let i = 0;
           do {
             //await joinShop($.card[i]);
-            await $.wait(1000);
+            await $.wait(500);
             i++;
           } while (i < $.card.length);
         }
-        await $.wait(1000);
+        await $.wait(500);
         //await getOpenCardAllStatuesNew();
         if ($.maxTeam) {
           console.log("队伍已满员");
@@ -586,9 +586,9 @@ function openCardActivity(activityId, activityUrl, pin, num, againUserIndex) {
             }
           } catch (e) {
             // $.card = [
-            //   'https://shopmember.m.jd.com/shopcard/?venderId=1000006644&shopId=1000006644&channel=8802',
-            //   'https://shopmember.m.jd.com/shopcard/?venderId=1000000192&shopId=1000000192&channel=8802',
-            //   'https://shopmember.m.jd.com/shopcard/?venderId=1000099547&shopId=1000099547&channel=8802'
+            //   'https://shopmember.m.jd.com/shopcard/?venderId=500006644&shopId=500006644&channel=8802',
+            //   'https://shopmember.m.jd.com/shopcard/?venderId=500000192&shopId=500000192&channel=8802',
+            //   'https://shopmember.m.jd.com/shopcard/?venderId=500099547&shopId=500099547&channel=8802'
             // ]
             $.logErr(e, resp);
           } finally {
