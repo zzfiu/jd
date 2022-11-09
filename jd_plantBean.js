@@ -215,7 +215,7 @@ async function stealFriendWater() {
                         }
                     }
                 }
-                await $.wait(5000)
+                await $.wait(3000)
             }
         }
     } else {
