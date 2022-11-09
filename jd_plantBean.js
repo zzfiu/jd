@@ -215,7 +215,7 @@ async function stealFriendWater() {
                         }
                     }
                 }
-                await $.wait(1000)
+                await $.wait(5000)
             }
         }
     } else {
@@ -463,7 +463,7 @@ async function doHelp() {
         } else {
             console.log(`助力失败: ${JSON.stringify($.helpResult)}`);
         }
-        await $.wait(2000)
+        await $.wait(5000)
     }
 }
 function showMsg() {
@@ -724,7 +724,7 @@ function readShareCode() {
                 resolve(data);
             }
         })
-        await $.wait(15000);
+        await $.wait(25000);
         resolve()
     })
 }
