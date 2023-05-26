@@ -1,7 +1,8 @@
 /*
 https://wbbny.m.jd.com/pb/014710620/mTPLZGkAcayB5UvZ6uZCtL3M6ca/index.html?from=home&babelChannel=jdfuceng
 */
-
+require("global-agent/bootstrap");
+global.GLOBAL_AGENT.HTTP_PROXY="http://192.168.10.10:8899";
 const $ = new Env('京东全民拆快递_任务');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
