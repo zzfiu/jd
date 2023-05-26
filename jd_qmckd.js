@@ -1,8 +1,7 @@
 /*
 https://wbbny.m.jd.com/pb/014710620/mTPLZGkAcayB5UvZ6uZCtL3M6ca/index.html?from=home&babelChannel=jdfuceng
 */
-require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://192.168.10.10:8899";
+
 
 const $ = new Env('京东全民拆快递_任务');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -68,7 +67,7 @@ let utils = ''
         console.log("填写log token[gua_log_token]")
         return
     }
-    console.log("当前版本：2023年05月24日 V2")
+    console.log("当前版本：2023年05月26日")
     console.log("TOKEN：" + $.token.replace(/.+(.{5})/, '***$1') + "\n")
 
     let blacklist = '' // 黑名单 用&隔开 pin值(填中文
@@ -1178,6 +1177,7 @@ function gettoken(appname) {
             url: `https://rjsb-token-m.jd.com/gettoken`,
             headers: {
                 "accept": "*/*",
+                'Cookie': `${$.cookie}`,
                 "Origin": "https://wbbny.m.jd.com",
                 "Referer": "https://wbbny.m.jd.com/",
                 "User-Agent": $.UA,
