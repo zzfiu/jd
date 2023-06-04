@@ -3,7 +3,7 @@ cron "0 6,13,19 * * *" jd_speed_sign_Mod.js, tag:京东特价版任务
 */
 //详细说明参考 https://github.com/ccwav/QLScript2.
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://192.168.10.10:8899";
+global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.202:9988";
 const $ = new Env('京东特价版任务');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;

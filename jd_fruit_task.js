@@ -10,22 +10,22 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-5 1-18/6 * * * jd_fruit_task.js, tag=东东农场日常任务, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
+5 1-18/3 * * * jd_fruit_task.js, tag=东东农场日常任务, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "5 1-18/6 * * *" script-path=jd_fruit_task.js,tag=东东农场日常任务
+cron "5 1-18/3 * * *" script-path=jd_fruit_task.js,tag=东东农场日常任务
 
 =========================Surge============================
-东东农场日常任务 = type=cron,cronexp="5 1-18/6 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_task.js
+东东农场日常任务 = type=cron,cronexp="5 1-18/3 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_task.js
 
 =========================小火箭===========================
-东东农场日常任务 = type=cron,script-path=jd_fruit_task.js, cronexpr="5 1-18/6 * * *", timeout=3600, enable=true
+东东农场日常任务 = type=cron,script-path=jd_fruit_task.js, cronexpr="5 1-18/3 * * *", timeout=3600, enable=true
 
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://192.168.10.10:8899";
+global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.202:9988";
 const $ = new Env('东东农场日常任务');
 let cookiesArr = [],
     cookie = '',
