@@ -25,7 +25,7 @@ export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.202:9988";
+global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.203:8866";
 const $ = new Env('东东农场日常任务');
 let cookiesArr = [],
     cookie = '',

@@ -7,7 +7,7 @@ cron:21 9 * * *
 
 */
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.202:9988";
+global.GLOBAL_AGENT.HTTP_PROXY="http://111.67.200.203:8866";
 const $ = new Env('MM领京豆');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
