@@ -2,11 +2,6 @@
 此文件为Node.js专用。其他用户请忽略
  */
 //此处填写京东账号cookie。
-const {bootstrap} = require("global-agent");
-
-bootstrap();
-
-GLOBAL_AGENT.HTTP_PROXY = 'http://172.17.0.1:8866';
 let CookieJDs = [
     ]
 // 判断环境变量里面是否有京东ck
