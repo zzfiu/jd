@@ -22,6 +22,8 @@ export DO_TEN_WATER_AGAIN="" 默认再次浇水
 需要关闭通知 在第39行  false  改成  true
 
 */
+require("global-agent/bootstrap");
+global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:8866";
 const $ = new Env('东东农场日常任务');
 let cookiesArr = [],
     cookie = '',
