@@ -1,7 +1,7 @@
 /*
 东东农场快速浇水
 默认使用快速浇水卡，成熟了自动收取红包和种植新的水果
-11 11 11 11 * jd_fruit_watering.js, tag=东东农场快速浇水, enabled=true
+10 0 * * * jd_fruit_watering.js, tag=东东农场快速浇水, enabled=true
 */
 require("global-agent/bootstrap");
 global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
