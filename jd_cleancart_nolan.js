@@ -40,6 +40,8 @@ cron:8 8 8 8 *
 8 8 8 8 * jd_cleancart_nolan.js, tag=清空购物车-Sign版, enabled=true
 
 */
+require("global-agent/bootstrap");
+global.GLOBAL_AGENT.HTTP_PROXY="http://192.168.10.10:9876";
 let jdSignUrl = 'https://api.nolanstore.cc/sign'
 let cleancartRun = 'false'
 let cleancartProducts = ''
