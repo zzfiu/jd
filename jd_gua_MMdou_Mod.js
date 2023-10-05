@@ -6,12 +6,9 @@ cron:21 9,17 * * *
 21 9 * * * https://raw.githubusercontent.com/smiek2121/scripts/master/gua_MMdou.js, tag=MM领京豆, enabled=true
 
 */
-let global_agent_http_proxy_isopen = false;
-if (process.env.GLOBAL_AGENT_HTTP_PROXY){
-    global_agent_http_proxy_isopen = true;
-    require("global-agent/bootstrap");
-    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY || '';
-}
+require("global-agent/bootstrap");
+global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 const $ = new Env('MM领京豆');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';

@@ -5,12 +5,9 @@
 cron "15 2,7,14,18 * * *" jd_fruitTask.js
 export DO_TEN_WATER_AGAIN="1" 攒水滴
 */
-let global_agent_http_proxy_isopen = false;
-if (process.env.GLOBAL_AGENT_HTTP_PROXY){
-    global_agent_http_proxy_isopen = true;
-    require("global-agent/bootstrap");
-    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY || '';
-}
+require("global-agent/bootstrap");
+global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 
 const $ = new Env('东东农场-内部任务');
 
