@@ -4,8 +4,12 @@
 update：2023/6/10 by:6dy
 33 7 * * * jd_dwapp.js
 */
-require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+let global_agent_http_proxy_isopen = false;
+if (process.env.GLOBAL_AGENT_HTTP_PROXY){
+    global_agent_http_proxy_isopen = true;
+    require("global-agent/bootstrap");
+    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY || '';
+}
 const $ = new Env('积分换话费');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
