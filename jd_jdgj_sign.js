@@ -4,7 +4,7 @@ cron:31 1 * * *
 ============Quantumultx===============
 [task_local]
 #京东国际签到
-31 1 * * * jd_jdgj_sign.js, tag=京东国际签到, enabled=true
+31 1,19 * * * jd_jdgj_sign.js, tag=京东国际签到, enabled=true
  */
 let global_agent_http_proxy_isopen = false;
 if (process.env.GLOBAL_AGENT_HTTP_PROXY){

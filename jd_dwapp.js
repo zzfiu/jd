@@ -2,7 +2,7 @@
 积分换话费
 入口：首页-生活·缴费-积分换话费 
 update：2023/6/10 by:6dy
-33 7 * * * jd_dwapp.js
+33 7,18 * * * jd_dwapp.js
 */
 let global_agent_http_proxy_isopen = false;
 if (process.env.GLOBAL_AGENT_HTTP_PROXY){

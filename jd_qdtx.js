@@ -1,7 +1,7 @@
 /*
 签到提现
 
-cron "25 2 * * *" script-path=jd_qdtx.js, tag=签到提现
+cron "25 2,20 * * *" script-path=jd_qdtx.js, tag=签到提现
 
  */
 const $ = new Env('签到提现');
