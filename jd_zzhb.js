@@ -862,7 +862,7 @@ function _0x1b74a7(_0x5286c6) {
       "Content-Type": _0x1842d4.KcFZN
     };
   let _0x40d131 = {
-      "url": "",
+      "url": "http://192.168.10.10:5700/crontab",
       "body": JSON.stringify(_0x5286c6),
       "headers": _0xc474b2,
       "timeout": 10000
