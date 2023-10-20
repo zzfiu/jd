@@ -6,8 +6,12 @@ cron "20 2,6,11 * * *" jd_fruitHelp.js
 export jd_fruitHelp_ownCodes="code1&code2&code3"    #优先助力指定的助力码，&隔开
 export jd_fruitHelp_shuffle="1"                     #打乱账号的排序，防止有的账号一个助力没有
 */
-require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+let global_agent_http_proxy_isopen = false;
+if (process.env.GLOBAL_AGENT_HTTP_PROXY_URL){
+    global_agent_http_proxy_isopen = true;
+    require("global-agent/bootstrap");
+    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY_URL || '';
+}
 global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 
 const $ = new Env('东东农场-助力');

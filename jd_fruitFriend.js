@@ -5,8 +5,12 @@
 东东农场-删减好友
 cron "10 3,15,18 * * *" jd_fruitFriend.js
 */
-require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+let global_agent_http_proxy_isopen = false;
+if (process.env.GLOBAL_AGENT_HTTP_PROXY_URL){
+    global_agent_http_proxy_isopen = true;
+    require("global-agent/bootstrap");
+    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY_URL || '';
+}
 global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 
 const $ = new Env('东东农场-内部删减好友');
