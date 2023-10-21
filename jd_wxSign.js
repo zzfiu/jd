@@ -19,11 +19,6 @@
 cron: 7 7 7 7 * jd_wxSign.js
 
 */
-let global_agent_http_proxy_isopen = false;
-if (process.env.GLOBAL_AGENT_HTTP_PROXY){
-    global_agent_http_proxy_isopen = true;
-    require("global-agent/bootstrap");
-    global.GLOBAL_AGENT.HTTP_PROXY = process.env.GLOBAL_AGENT_HTTP_PROXY || '';
 }
 const $ = new Env('店铺签到（超级无线/超级会员）')
 const jdCookie = require('./jdCookie')
