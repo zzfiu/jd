@@ -19,7 +19,7 @@
 cron: 7 7 7 7 * jd_wxSign.js
 
 */
-}
+
 const $ = new Env('店铺签到（超级无线/超级会员）')
 const jdCookie = require('./jdCookie')
 const common = require('./function/jdCommon')
