@@ -3,7 +3,7 @@ cron "0 6,13,19 * * *" jd_speed_sign_Mod.js, tag:京东特价版任务
 */
 //详细说明参考 https://github.com/ccwav/QLScript2.
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:5678";
+global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
 global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 const $ = new Env('京东特价版任务');
 const notify = $.isNode() ? require('./sendNotify') : '';
