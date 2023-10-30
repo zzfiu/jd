@@ -41,7 +41,7 @@ cron:8 8 8 8 *
 
 */
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:9876";
+global.GLOBAL_AGENT.HTTP_PROXY="http://172.17.0.1:54987";
 global.GLOBAL_AGENT.NO_PROXY='*.ailoveu.eu.org,*.kingran.*,3.cn,*.telegram.org,github.com,*.foo.com,*.baz.com,cdn.nz.lu,127.0.0.1,*.feverrun.*,hailiangip.*,*.nolanstore.*,*.jsdelivr.*,xgzq.ml,hub.llll.host,*.moxigame.*,*.feverrun.*,172.17.0.1'
 let jdSignUrl = 'https://api.nolanstore.cc/sign'
 let cleancartRun = 'false'
