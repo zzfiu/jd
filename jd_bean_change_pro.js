@@ -421,6 +421,7 @@ if(DisableIndex!=-1){
 			        cash(), //特价金币
 			        bean(), //京豆查询
 			        // jdCash(), //领现金
+					getek(),//京东E卡
 			        GetJoyRuninginfo(), //汪汪赛跑
 			        queryScores()
 			    ])
@@ -752,7 +753,7 @@ async function showMsg() {
 		ReturnMessage += `【特价金币】${$.JDtotalcash}币(≈${($.JDtotalcash / 10000).toFixed(2)}元)\n`;
 	}	
 	if($.ECardinfo)
-		ReturnMessage += `【礼卡余额】${$.ECardinfo}\n`;
+		ReturnMessage += `【E卡余额】${$.ECardinfo}元\n`;
 	
 	if ($.JoyRunningAmount) 
 		ReturnMessage += `【汪汪赛跑】${$.JoyRunningAmount}元\n`;
@@ -2210,6 +2211,39 @@ function marketCard() {
             }
         })
     })
+}
+function getek() {
+	let opt = {
+		url: `https://mygiftcard.jd.com/giftcard/queryChannelUserCard`,
+		//body: `appid=wh5&clientVersion=1.0.0&functionId=wanrentuan_superise_send&body={"channel":2}&area=2_2813_61130_0`,
+		headers: {
+			//'Host': 'api.m.jd.com',
+			'Origin': 'https://o.jd.com',
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'User-Agent': 'jdapp;iPhone;9.3.4;14.3;88732f840b77821b345bf07fd71f609e6ff12f43;network/4g;ADID/1C141FDD-C62F-425B-8033-9AAB7E4AE6A3;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone11,8;addressid/2005183373;supportBestPay/0;appBuild/167502;jdSupportDarkMode/0;pv/414.19;apprpd/Babel_Native;ref/TTTChannelViewContoller;psq/5;ads/;psn/88732f840b77821b345bf07fd71f609e6ff12f43|1701;jdv/0|iosapp|t_335139774|appshare|CopyURL|1610885480412|1610885486;adk/;app_device/IOS;pap/JA2015_311210|9.3.4|IOS 14.3;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+			'Cookie': cookie
+		}
+	}
+	return new Promise(async (resolve) => {
+		$.get(opt, async (err, resp, data) => {
+			try {
+				if (err) {
+					console.log(`E卡查询失败`)
+				} else {
+					data = JSON.parse(data)
+					if (data.code == 000000) {
+						$.ECardinfo = Number(data.data.totalAmount) || 0;
+					} else {
+						console.log(data.msg)
+					}
+				}
+			} catch (e) {
+				$.logErr(e, resp)
+			} finally {
+				resolve(data)
+			}
+		})
+	})
 }
 function area() {
     let i = getRand(1, 30)
