@@ -6,7 +6,7 @@
 
 每月或每周只能领2次红包，由于常规浇水太慢，脚本优先使用快速浇水卡
 
-cron:29 2 * * * jd_fruit_watering.js
+cron:1 1 1 1 * jd_fruit_watering.js
 
 */
 
